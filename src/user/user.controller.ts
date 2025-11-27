@@ -31,6 +31,8 @@ export class UserController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'get all users' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'return all users', type: [UserResponseDto] })
   public findAll(): UserResponseDto[] {
     return this.userService.findAll();
   }
