@@ -7,7 +7,4 @@ export type User = {
   updatedAt: number; // timestamp of last update
 };
 
-export type CreateUserDto = {
-  login: string;
-  password: string;
-};
+export type UserWithoutPassword = Omit<User, 'password'>;
