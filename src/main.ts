@@ -19,7 +19,7 @@ async function bootstrap(): Promise<void> {
 
   const config = new DocumentBuilder()
     .setTitle(TITLE)
-    .setDescription([...TITLE].reverse().join('') + ' :)')
+    .setDescription([...TITLE].reverse().join(''))
     .setVersion(VERSION)
     .build();
 
@@ -35,6 +35,10 @@ async function bootstrap(): Promise<void> {
       forbidNonWhitelisted: true,
     }),
   );
-  await app.listen(configService.get<string>('PORT') || DEF_PORT);
+  try {
+    await app.listen(configService.get<string>('PORT') || DEF_PORT);
+  } catch {
+    void 0;
+  }
 }
 void bootstrap();

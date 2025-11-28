@@ -2,7 +2,6 @@ import { Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Req } from 
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { FavCollectionName } from '../common/db';
-import { TrackResponseDto } from '../track/dto/track-response.dto';
 import { FavsResponseDto } from './dto/favs-response.dto';
 import { FavsService } from './favs.service';
 
@@ -22,7 +21,6 @@ export class FavsController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'successfully added',
-    type: TrackResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,

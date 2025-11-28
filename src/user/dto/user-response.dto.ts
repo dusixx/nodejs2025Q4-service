@@ -10,13 +10,14 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
+import { UUID_VER } from '../../common/constants';
 import { UserWithoutPassword } from '../types';
 
 export class UserResponseDto implements UserWithoutPassword {
   @ApiProperty({
     description: 'uuid v4',
   })
-  @IsUUID(4)
+  @IsUUID(UUID_VER)
   id: string;
 
   @ApiProperty({

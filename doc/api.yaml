@@ -555,7 +555,7 @@ paths:
       tags: *ref_4
 info:
   title: Home Library Service
-  description: ecivreS yrarbiL emoH :)
+  description: ecivreS yrarbiL emoH
   version: 1.0.0
   contact: {}
 tags: []

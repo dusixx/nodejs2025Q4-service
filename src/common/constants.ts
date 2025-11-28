@@ -1,3 +1,6 @@
+export const UUID_VER = 4;
+export const DEF_PORT = 4000;
+
 export const ErrorMessage = {
   InvalidOldPassword: 'old password is invalid',
   InvalidUUID: 'invalid UUID',

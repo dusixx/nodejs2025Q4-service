@@ -25,9 +25,9 @@ export class FavsService {
 
   public findAll(): FavsResponseDto {
     return {
-      artists: [...this.favs.artists].map(id => db.artists.get(id)).filter(Boolean),
-      albums: [...this.favs.albums].map(id => db.albums.get(id)).filter(Boolean),
-      tracks: [...this.favs.tracks].map(id => db.tracks.get(id)).filter(Boolean),
+      artists: [...this.favs.artists].map(id => db.artists.get(id)),
+      albums: [...this.favs.albums].map(id => db.albums.get(id)),
+      tracks: [...this.favs.tracks].map(id => db.tracks.get(id)),
     };
   }
 
