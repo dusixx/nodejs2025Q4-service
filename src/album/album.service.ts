@@ -45,6 +45,11 @@ export class AlbumService {
         track.albumId = null;
       }
     });
+    db.favs.albums.forEach((favId, _, col) => {
+      if (favId === id) {
+        col.delete(id);
+      }
+    });
     this.albums.delete(album.id);
   }
 

@@ -14,14 +14,12 @@ import { UserWithoutPassword } from '../types';
 
 export class UserResponseDto implements UserWithoutPassword {
   @ApiProperty({
-    example: 'b50da10c-2059-4002-b75a-a11d8ad309a1',
-    description: 'user uuid v4',
+    description: 'uuid v4',
   })
   @IsUUID(4)
   id: string;
 
   @ApiProperty({
-    example: 'some login',
     description: 'user login',
   })
   @IsString()
@@ -30,7 +28,6 @@ export class UserResponseDto implements UserWithoutPassword {
   login: string;
 
   @ApiProperty({
-    example: 1,
     description: 'version number (1..N)',
   })
   @IsInt()

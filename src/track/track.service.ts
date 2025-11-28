@@ -40,6 +40,12 @@ export class TrackService {
 
   public remove(id: string): void {
     const track = this.findById(id);
+
+    db.favs.tracks.forEach((favId, _, col) => {
+      if (favId === id) {
+        col.delete(id);
+      }
+    });
     this.tracks.delete(track.id);
   }
 

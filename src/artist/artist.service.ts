@@ -1,24 +1,16 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { validate } from 'uuid';
 import { ErrorMessage } from '../common/constants';
+import { db } from '../common/db';
 import { ArtistResponseDto } from './dto/artist-response.dto';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
-import { Artist } from './types';
 
 @Injectable()
 export class ArtistService {
-  private artists = new Map<string /*id*/, Artist>();
+  private artists = db.artists;
 
   public create({ name, grammy }: CreateArtistDto): ArtistResponseDto {
-    if (this.isArtistExists(name)) {
-      throw new ConflictException(ErrorMessage.AlreadyExists`artist`);
-    }
     const newArtist: ArtistResponseDto = {
       id: crypto.randomUUID(),
       name,
@@ -32,7 +24,7 @@ export class ArtistService {
     return [...this.artists.values()];
   }
 
-  public findOne(id: string): Artist {
+  public findOne(id: string): ArtistResponseDto {
     return this.findById(id);
   }
 
@@ -45,11 +37,24 @@ export class ArtistService {
   }
 
   public remove(id: string): void {
-    this.artists.delete(this.findById(id).id);
-  }
+    const artist = this.findById(id);
 
-  private isArtistExists(name: string): ArtistResponseDto {
-    return [...this.artists.values()].find(artist => name === artist.name);
+    db.tracks.forEach(track => {
+      if (track.artistId === id) {
+        track.artistId = null;
+      }
+    });
+    db.albums.forEach(album => {
+      if (album.artistId === id) {
+        album.artistId = null;
+      }
+    });
+    db.favs.artists.forEach((favId, _, col) => {
+      if (favId === id) {
+        col.delete(id);
+      }
+    });
+    this.artists.delete(artist.id);
   }
 
   private findById(id: string): ArtistResponseDto {

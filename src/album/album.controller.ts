@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ErrorMessage } from '../common/constants';
-import { UserResponseDto } from '../user/dto/user-response.dto';
 import { AlbumService } from './album.service';
 import { AlbumResponseDto } from './dto/album-response.dto';
 import { CreateAlbumDto } from './dto/create-album.dto';
@@ -33,11 +32,6 @@ export class AlbumController {
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: ErrorMessage.InvalidRequestBody,
-    type: AlbumResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.CONFLICT,
-    description: ErrorMessage.AlreadyExists`album`,
   })
   public create(@Body() createAlbumDto: CreateAlbumDto): AlbumResponseDto {
     return this.albumService.create(createAlbumDto);
@@ -64,7 +58,7 @@ export class AlbumController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'return album by ID',
-    type: UserResponseDto,
+    type: AlbumResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -88,7 +82,7 @@ export class AlbumController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'album successfully updated',
-    type: UserResponseDto,
+    type: AlbumResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -117,7 +111,6 @@ export class AlbumController {
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
     description: 'album successfully deleted',
-    type: UserResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,

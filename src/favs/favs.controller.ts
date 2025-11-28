@@ -1,11 +1,12 @@
 import { Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Req } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { FavCollectionName } from '../common/db';
 import { TrackResponseDto } from '../track/dto/track-response.dto';
 import { FavsResponseDto } from './dto/favs-response.dto';
 import { FavsService } from './favs.service';
 
+@ApiTags('favs')
 @Controller('favs')
 export class FavsController {
   constructor(private readonly favsService: FavsService) {}

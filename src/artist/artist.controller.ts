@@ -10,7 +10,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UserResponseDto } from '../user/dto/user-response.dto';
+import { ErrorMessage } from '../common/constants';
 import { ArtistService } from './artist.service';
 import { ArtistResponseDto } from './dto/artist-response.dto';
 import { CreateArtistDto } from './dto/create-artist.dto';
@@ -31,28 +31,24 @@ export class ArtistController {
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'request body does not contain required fields',
-    type: ArtistResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.CONFLICT,
-    description: 'artist with this login already exists',
+    description: ErrorMessage.InvalidRequestBody,
   })
   public create(@Body() createArtistDto: CreateArtistDto): ArtistResponseDto {
     return this.artistService.create(createArtistDto);
   }
 
+  @Get()
   @ApiOperation({ summary: 'get all artists' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'return all artists',
     type: [ArtistResponseDto],
   })
-  @Get()
   public findAll(): ArtistResponseDto[] {
     return this.artistService.findAll();
   }
 
+  @Get(':id')
   @ApiOperation({ summary: 'get artist by id' })
   @ApiParam({
     name: 'id',
@@ -62,7 +58,7 @@ export class ArtistController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'return artist by ID',
-    type: UserResponseDto,
+    type: ArtistResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -72,7 +68,6 @@ export class ArtistController {
     status: HttpStatus.NOT_FOUND,
     description: 'artist not found',
   })
-  @Get(':id')
   public findOne(@Param('id') id: string): ArtistResponseDto {
     return this.artistService.findOne(id);
   }
@@ -87,7 +82,7 @@ export class ArtistController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'artist successfully updated',
-    type: UserResponseDto,
+    type: ArtistResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -115,7 +110,6 @@ export class ArtistController {
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
     description: 'artist successfully deleted',
-    type: UserResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -126,6 +120,6 @@ export class ArtistController {
     description: 'artist not found',
   })
   public remove(@Param('id') id: string): void {
-    return this.artistService.remove(id);
+    this.artistService.remove(id);
   }
 }

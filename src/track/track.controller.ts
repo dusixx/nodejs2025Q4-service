@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ErrorMessage } from '../common/constants';
-import { UserResponseDto } from '../user/dto/user-response.dto';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { TrackResponseDto } from './dto/track-response.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
@@ -33,11 +32,6 @@ export class TrackController {
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: ErrorMessage.InvalidRequestBody,
-    type: TrackResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.CONFLICT,
-    description: ErrorMessage.AlreadyExists`track`,
   })
   create(@Body() createTrackDto: CreateTrackDto): TrackResponseDto {
     return this.trackService.create(createTrackDto);
@@ -64,7 +58,7 @@ export class TrackController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'return track by ID',
-    type: UserResponseDto,
+    type: TrackResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -88,7 +82,7 @@ export class TrackController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'track successfully updated',
-    type: UserResponseDto,
+    type: TrackResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -117,7 +111,6 @@ export class TrackController {
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
     description: 'track successfully deleted',
-    type: UserResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -128,6 +121,6 @@ export class TrackController {
     description: 'track not found',
   })
   remove(@Param('id') id: string): void {
-    return this.trackService.remove(id);
+    this.trackService.remove(id);
   }
 }

@@ -1,16 +1,28 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ErrorMessage } from '../common/constants';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UserResponseDto } from './dto/user-response.dto';
 import { UserService } from './user.service';
 
-@ApiTags('users')
+@ApiTags('user')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'create new user' })
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -19,12 +31,11 @@ export class UserController {
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'request body does not contain required fields',
-    type: UserResponseDto,
+    description: ErrorMessage.InvalidRequestBody,
   })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
-    description: 'user with this login already exists',
+    description: ErrorMessage.AlreadyExists`user`,
   })
   public create(@Body() createUserDto: CreateUserDto): UserResponseDto {
     return this.userService.create(createUserDto);
@@ -32,7 +43,11 @@ export class UserController {
 
   @Get()
   @ApiOperation({ summary: 'get all users' })
-  @ApiResponse({ status: HttpStatus.OK, description: 'return all users', type: [UserResponseDto] })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'return all users',
+    type: [UserResponseDto],
+  })
   public findAll(): UserResponseDto[] {
     return this.userService.findAll();
   }
@@ -79,7 +94,7 @@ export class UserController {
   })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
-    description: 'old password is invalid',
+    description: ErrorMessage.InvalidOldPassword,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
@@ -93,6 +108,7 @@ export class UserController {
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'delete user by id' })
   @ApiParam({
     name: 'id',
@@ -102,7 +118,6 @@ export class UserController {
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
     description: 'user successfully deleted',
-    type: UserResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -113,6 +128,6 @@ export class UserController {
     description: 'user not found',
   })
   public remove(@Param('id') id: string): void {
-    return this.userService.remove(id);
+    this.userService.remove(id);
   }
 }

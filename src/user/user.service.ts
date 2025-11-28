@@ -5,7 +5,9 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import uuid from 'uuid';
+import { validate } from 'uuid';
+import { ErrorMessage } from '../common/constants';
+import { db } from '../common/db';
 import { omit } from '../common/utils';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
@@ -14,11 +16,11 @@ import { User } from './types';
 
 @Injectable()
 export class UserService {
-  private users = new Map<string /*id*/, User>();
+  private users = db.users;
 
   public create({ login, password }: CreateUserDto): UserResponseDto {
     if (this.isUserExists(login)) {
-      throw new ConflictException();
+      throw new ConflictException(ErrorMessage.AlreadyExists`user`);
     }
     const now = Date.now();
     const newUser: User = {
@@ -47,7 +49,7 @@ export class UserService {
   ): UserResponseDto {
     const user = this.findById(id);
     if (user.password !== oldPassword) {
-      throw new ForbiddenException();
+      throw new ForbiddenException(ErrorMessage.InvalidOldPassword);
     }
     const updated: User = {
       ...user,
@@ -69,12 +71,12 @@ export class UserService {
   }
 
   private findById(id: string): User {
-    if (!uuid.validate(id)) {
-      throw new BadRequestException();
+    if (!validate(id)) {
+      throw new BadRequestException(ErrorMessage.InvalidUUID);
     }
     const user = this.users.get(id);
     if (!user) {
-      throw new NotFoundException();
+      throw new NotFoundException(ErrorMessage.NotFound`user`);
     }
     return user;
   }
