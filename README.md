@@ -17,20 +17,25 @@ npm start
 # 🧪 run all tests (in another terminal window)
 npm test
 
-# 🧪 to run only one test suites
-npm run test -- <path to suite>
+# 🧪 run only one test
+npm run test -- <path_to_suite>
 ```
 
-After running the application on port (default `4000`), you can open the `OpenAPI documentation` in the browser, using the link http://localhost:4000/doc/
-
-### Auto-fix and format
-
 ```sh
+# auto-fix and format
 npm run lint
 npm run format
 ```
 
-## 🆘 If something went wrong
+### 🟢 Open API
+
+After launching the application on port `4000` (default),
+
+you can open the `OpenAPI documentation` in your browser at
+
+http://localhost:4000/doc
+
+### 🔴 If something went wrong
 
 ```sh
 # to fix dependencies
