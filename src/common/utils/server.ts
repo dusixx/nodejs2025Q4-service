@@ -44,6 +44,8 @@ const tryKillServer = async (port: number | string): Promise<void> => {
   }
 };
 
+export class TimeoutError extends Error {}
+
 type TryFreePortProps = {
   port: number | string;
   attempts?: number;
@@ -51,9 +53,7 @@ type TryFreePortProps = {
   quiet?: boolean;
 };
 
-export class TimeoutError extends Error {}
-
-export const tryFreePort = async ({
+export const tryReleasePort = async ({
   port,
   attempts = 5,
   delay = 1500,
