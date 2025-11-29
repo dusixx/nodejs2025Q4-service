@@ -1,13 +1,11 @@
-## 🚀 Install
+### 🚀 Install & Run
 
 ```sh
 git clone git@github.com:dusixx/nodejs2025Q4-service.git
 cd nodejs2025Q4-service
-git checkout dev
+git checkout part1
 npm i
 ```
-
-## ⚙️ Run
 
 ```sh
 # Create .env file from .env.example
@@ -19,12 +17,11 @@ npm start
 # 🧪 run all tests (in another terminal window)
 npm test
 
-# 🧪 to run only one of all test suites
+# 🧪 to run only one test suites
 npm run test -- <path to suite>
 ```
 
-After starting the app on port (`4000` as default) you can open
-in your browser `OpenAPI documentation` by typing http://localhost:4000/doc/.
+After running the application on port (default `4000`), you can open the `OpenAPI documentation` in the browser, using the link http://localhost:4000/doc/
 
 ### Auto-fix and format
 
@@ -36,7 +33,7 @@ npm run format
 ## 🆘 If something went wrong
 
 ```sh
-# to reinstall dependencies
+# to fix dependencies
 npm run fix:deps
 ```
 
