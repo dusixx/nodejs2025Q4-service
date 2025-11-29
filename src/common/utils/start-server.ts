@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import * as net from 'net';
 import { exec } from 'node:child_process';
 import { promisify } from 'node:util';
-import { wait } from '.';
+import { sleep } from '.';
 import { cyan, red } from './style';
 
 const execAsync = promisify(exec);
@@ -50,30 +50,30 @@ type TryFreePortProps = {
   port: number | string;
   attempts?: number;
   delay?: number;
-  onRetry?: (curAttempt: number, attempts: number) => void;
-  onFinish?: (timeIsUp?: boolean) => void;
+  quiet?: boolean;
 };
+
+class TimeoutError extends Error {}
 
 const tryFreePort = async ({
   port,
   attempts = 5,
   delay = 1500,
-  onRetry,
-  onFinish,
+  quiet,
 }: TryFreePortProps): Promise<void> => {
   let curAttempt = 0;
 
   while (!(await isPortAvailable(port))) {
-    onRetry?.(curAttempt, attempts);
+    if (!quiet) {
+      console.log(`Address in use, retrying (${curAttempt + 1}/${attempts})...`);
+    }
     await tryKillServer(port);
-    await wait(delay);
+    await sleep(delay);
 
     if ((curAttempt += 1) >= attempts) {
-      onFinish?.(true);
-      return;
+      throw new TimeoutError('time is up');
     }
   }
-  onFinish?.();
 };
 
 export const startNestServer = async (
@@ -82,18 +82,15 @@ export const startNestServer = async (
 ): Promise<void> => {
   console.log();
 
-  await tryFreePort({
-    port,
-    onRetry: (c, t) => {
-      console.log(`Address in use, retrying (${c + 1}/${t})...`);
-    },
-    onFinish: async timeIsUp => {
-      if (timeIsUp) {
-        console.log(red('\nError:'), 'time is up');
-      } else {
-        await app.listen(port);
-        console.log(cyan(`\nServer is running on http://[::1]:${port}`));
-      }
-    },
-  });
+  try {
+    await tryFreePort({ port });
+    await app.listen(port);
+    console.log(cyan(`\nServer is running on http://[::1]:${port}`));
+  } catch (err) {
+    if (err instanceof TimeoutError) {
+      console.log(red('\nError:'), 'time is up');
+      return;
+    }
+    throw err;
+  }
 };

@@ -15,6 +15,6 @@ export const hasOwnKeys = <T extends object>(obj: unknown, ...keys: (keyof T)[])
   return isObject(obj) && keys.every(key => Object.prototype.hasOwnProperty.call(obj, key));
 };
 
-export const wait = async (delay: number): Promise<void> => {
+export const sleep = async (delay: number): Promise<void> => {
   await new Promise(resolve => setTimeout(resolve, delay));
 };
