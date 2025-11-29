@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import * as net from 'net';
 import { exec } from 'node:child_process';
 import { promisify } from 'node:util';
-import { sleep } from '.';
+import { sleep } from './misc';
 import { cyan, red } from './style';
 
 const execAsync = promisify(exec);
