@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { AppService } from './app.service';
 import { DEF_PORT } from './common/constants';
 import { startNestServer, updateYAMLDoc } from './main.utils';
 
@@ -24,6 +25,9 @@ async function bootstrap(): Promise<void> {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('doc', app, document);
+
+  const appService = app.get(AppService);
+  appService.endpoints = Object.keys(document.paths);
 
   app.useGlobalPipes(
     new ValidationPipe({
