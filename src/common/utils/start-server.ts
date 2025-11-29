@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { INestApplication } from '@nestjs/common';
 import * as net from 'net';
 import { exec } from 'node:child_process';
 import { promisify } from 'node:util';
 import { sleep } from './misc';
-import { cyan, red } from './style';
 
 const execAsync = promisify(exec);
 
@@ -53,9 +51,9 @@ type TryFreePortProps = {
   quiet?: boolean;
 };
 
-class TimeoutError extends Error {}
+export class TimeoutError extends Error {}
 
-const tryFreePort = async ({
+export const tryFreePort = async ({
   port,
   attempts = 5,
   delay = 1500,
@@ -73,24 +71,5 @@ const tryFreePort = async ({
     if ((curAttempt += 1) >= attempts) {
       throw new TimeoutError('time is up');
     }
-  }
-};
-
-export const startNestServer = async (
-  app: INestApplication,
-  port: number | string,
-): Promise<void> => {
-  console.log();
-
-  try {
-    await tryFreePort({ port });
-    await app.listen(port);
-    console.log(cyan(`\nServer is running on http://[::1]:${port}`));
-  } catch (err) {
-    if (err instanceof TimeoutError) {
-      console.log(red('\nError:'), 'time is up');
-      return;
-    }
-    throw err;
   }
 };
