@@ -88,5 +88,5 @@ export const startNestServer = async (
     },
   });
   await app.listen(port);
-  console.log(cyan(`\nServer is ruuning on http://[::1]:${port}\n`));
+  console.log(cyan(`\nServer is running on http://[::1]:${port}\n`));
 };
