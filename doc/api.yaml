@@ -21,7 +21,7 @@ paths:
         '400':
           description: request body does not contain required fields
         '409':
-          description: user already exists
+          description: user with this name already exists
       tags: &ref_0
         - user
     get:
@@ -300,8 +300,6 @@ paths:
           description: id is not UUID
         '404':
           description: track not found
-        '409':
-          description: old password is invalid
       tags: *ref_2
     delete:
       operationId: TrackController_remove
@@ -407,8 +405,6 @@ paths:
           description: id is not UUID
         '404':
           description: album not found
-        '409':
-          description: old password is invalid
       tags: *ref_3
     delete:
       operationId: AlbumController_remove

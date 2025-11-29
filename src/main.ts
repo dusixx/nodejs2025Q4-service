@@ -6,6 +6,7 @@ import { writeFileSync } from 'fs';
 import * as yaml from 'js-yaml';
 import { AppModule } from './app.module';
 import { DEF_PORT } from './common/constants';
+import { startNestServer } from './common/utils';
 
 const VERSION = '1.0.0';
 const TITLE = 'Home Library Service';
@@ -14,6 +15,7 @@ const API_YAML_PATH = './doc/api.yaml';
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
+  const port = configService.get<string>('PORT') || DEF_PORT;
 
   app.enableCors();
 
@@ -35,10 +37,7 @@ async function bootstrap(): Promise<void> {
       forbidNonWhitelisted: true,
     }),
   );
-  try {
-    await app.listen(configService.get<string>('PORT') || DEF_PORT);
-  } catch {
-    void 0;
-  }
+  await startNestServer(app, port);
 }
+
 void bootstrap();

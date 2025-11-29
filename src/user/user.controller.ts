@@ -35,7 +35,7 @@ export class UserController {
   })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
-    description: ErrorMessage.AlreadyExists`user`,
+    description: 'user with this name already exists',
   })
   public create(@Body() createUserDto: CreateUserDto): UserResponseDto {
     return this.userService.create(createUserDto);
@@ -94,7 +94,7 @@ export class UserController {
   })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
-    description: ErrorMessage.InvalidOldPassword,
+    description: 'old password is invalid',
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
