@@ -1,3 +1,3 @@
 export * from './misc';
-export * from './start-server';
+export * from './server';
 export * from './style';
