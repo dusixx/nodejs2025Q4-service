@@ -3,7 +3,7 @@
 ```sh
 git clone git@github.com:dusixx/nodejs2025Q4-service.git
 cd nodejs2025Q4-service
-git checkout part1
+git checkout dev
 npm i
 ```
 
