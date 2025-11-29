@@ -48,45 +48,52 @@ const tryKillServer = async (port: number | string): Promise<void> => {
 
 type TryFreePortProps = {
   port: number | string;
-  timeout?: number;
+  attempts?: number;
   delay?: number;
-  onRetry?: () => void;
-  onTimeout?: () => void;
+  onRetry?: (curAttempt: number, attempts: number) => void;
+  onFinish?: (timeIsUp?: boolean) => void;
 };
 
 const tryFreePort = async ({
   port,
-  timeout = 10_000,
-  delay = 1000,
+  attempts = 5,
+  delay = 1500,
   onRetry,
-  onTimeout,
+  onFinish,
 }: TryFreePortProps): Promise<void> => {
-  let elapsed = 0;
+  let curAttempt = 0;
 
   while (!(await isPortAvailable(port))) {
-    onRetry?.();
+    onRetry?.(curAttempt, attempts);
     await tryKillServer(port);
     await wait(delay);
 
-    if ((elapsed += delay) >= timeout) {
-      onTimeout?.();
+    if ((curAttempt += 1) >= attempts) {
+      onFinish?.(true);
+      return;
     }
   }
+  onFinish?.();
 };
 
 export const startNestServer = async (
   app: INestApplication,
   port: number | string,
 ): Promise<void> => {
+  console.log();
+
   await tryFreePort({
     port,
-    onRetry: () => {
-      console.log('\nAddress in use, retrying...\n');
+    onRetry: (c, t) => {
+      console.log(`Address in use, retrying (${c + 1}/${t})...`);
     },
-    onTimeout: () => {
-      console.log(red('Error:'), 'time is up');
+    onFinish: async timeIsUp => {
+      if (timeIsUp) {
+        console.log(red('\nError:'), 'time is up');
+      } else {
+        await app.listen(port);
+        console.log(cyan(`\nServer is running on http://[::1]:${port}`));
+      }
     },
   });
-  await app.listen(port);
-  console.log(cyan(`\nServer is running on http://[::1]:${port}\n`));
 };
