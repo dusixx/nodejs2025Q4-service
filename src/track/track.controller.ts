@@ -89,10 +89,6 @@ export class TrackController {
     description: 'id is not UUID',
   })
   @ApiResponse({
-    status: HttpStatus.CONFLICT,
-    description: ErrorMessage.InvalidOldPassword,
-  })
-  @ApiResponse({
     status: HttpStatus.NOT_FOUND,
     description: 'track not found',
   })

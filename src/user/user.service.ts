@@ -20,7 +20,7 @@ export class UserService {
 
   public create({ login, password }: CreateUserDto): UserResponseDto {
     if (this.isUserExists(login)) {
-      throw new ConflictException(ErrorMessage.AlreadyExists`user`);
+      throw new ConflictException('user with this name already exists');
     }
     const now = Date.now();
     const newUser: User = {
@@ -49,7 +49,7 @@ export class UserService {
   ): UserResponseDto {
     const user = this.findById(id);
     if (user.password !== oldPassword) {
-      throw new ForbiddenException(ErrorMessage.InvalidOldPassword);
+      throw new ForbiddenException('old password is invalid');
     }
     const updated: User = {
       ...user,
