@@ -46,7 +46,7 @@ const tryKillServer = async (port: number | string): Promise<void> => {
 
 export class TimeoutError extends Error {}
 
-type TryFreePortProps = {
+type TryReleasePortProps = {
   port: number | string;
   attempts?: number;
   delay?: number;
@@ -58,7 +58,7 @@ export const tryReleasePort = async ({
   attempts = 5,
   delay = 1500,
   quiet,
-}: TryFreePortProps): Promise<void> => {
+}: TryReleasePortProps): Promise<void> => {
   let curAttempt = 0;
 
   while (!(await isPortAvailable(port))) {

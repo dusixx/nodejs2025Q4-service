@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   public endpoints: string[] = [];
 
-  getHello(): string {
+  getEndpointsList(): string {
     return `
       <div style="margin:auto;width:fit-content;font-family:sans-serif">
         <p>Endpoints:</p>

@@ -8,7 +8,7 @@ export class AppController {
 
   @Get()
   @ApiExcludeEndpoint()
-  getHello(): string {
-    return this.appService.getHello();
+  public getEndpointsList(): string {
+    return this.appService.getEndpointsList();
   }
 }

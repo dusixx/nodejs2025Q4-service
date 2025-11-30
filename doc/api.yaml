@@ -563,11 +563,11 @@ components:
       properties:
         login:
           type: string
-          example: some login
+          example: login123
           description: user login
         password:
           type: string
-          example: pass123
+          example: password123
           description: user password
       required:
         - login
@@ -603,11 +603,11 @@ components:
       properties:
         oldPassword:
           type: string
-          example: oldPass123
+          example: oldpass123
           description: current password
         newPassword:
           type: string
-          example: pass123
+          example: newpass123
           description: new password
       required:
         - oldPassword
@@ -617,10 +617,13 @@ components:
       properties:
         name:
           type: string
-          example: apocalyptica
           description: artist name
+        grammy:
+          type: boolean
+          description: has the artist been awarded a Grammy
       required:
         - name
+        - grammy
     ArtistResponseDto:
       type: object
       properties:
@@ -642,10 +645,13 @@ components:
       properties:
         name:
           type: string
-          example: apocalyptica
           description: artist name
+        grammy:
+          type: boolean
+          description: has the artist been awarded a Grammy
       required:
         - name
+        - grammy
     CreateTrackDto:
       type: object
       properties:
