@@ -1,5 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { validate } from 'uuid';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ErrorMessage } from '../common/constants';
 import { db } from '../common/db';
 import { AlbumResponseDto } from './dto/album-response.dto';
@@ -54,9 +53,6 @@ export class AlbumService {
   }
 
   private findById(id: string): AlbumResponseDto {
-    if (!validate(id)) {
-      throw new BadRequestException(ErrorMessage.InvalidUUID);
-    }
     const album = this.albums.get(id);
     if (!album) {
       throw new NotFoundException(ErrorMessage.NotFound`album`);

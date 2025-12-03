@@ -1,5 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { validate } from 'uuid';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ErrorMessage } from '../common/constants';
 import { db } from '../common/db';
 import { CreateTrackDto } from './dto/create-track.dto';
@@ -50,9 +49,6 @@ export class TrackService {
   }
 
   private findById(id: string): TrackResponseDto {
-    if (!validate(id)) {
-      throw new BadRequestException(ErrorMessage.InvalidUUID);
-    }
     const track = this.tracks.get(id);
     if (!track) {
       throw new NotFoundException(ErrorMessage.NotFound`track`);

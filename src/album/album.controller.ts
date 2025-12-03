@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ErrorMessage } from '../common/constants';
+import { validateUUID } from '../common/utils';
 import { AlbumService } from './album.service';
 import { AlbumResponseDto } from './dto/album-response.dto';
 import { CreateAlbumDto } from './dto/create-album.dto';
@@ -68,7 +69,7 @@ export class AlbumController {
     status: HttpStatus.NOT_FOUND,
     description: 'album not found',
   })
-  public findOne(@Param('id') id: string): AlbumResponseDto {
+  public findOne(@Param('id', validateUUID()) id: string): AlbumResponseDto {
     return this.albumService.findOne(id);
   }
 
@@ -92,7 +93,10 @@ export class AlbumController {
     status: HttpStatus.NOT_FOUND,
     description: 'album not found',
   })
-  public update(@Param('id') id: string, @Body() updateAlbumDto: UpdateAlbumDto): AlbumResponseDto {
+  public update(
+    @Param('id', validateUUID()) id: string,
+    @Body() updateAlbumDto: UpdateAlbumDto,
+  ): AlbumResponseDto {
     return this.albumService.update(id, updateAlbumDto);
   }
 
@@ -116,7 +120,7 @@ export class AlbumController {
     status: HttpStatus.NOT_FOUND,
     description: 'album not found',
   })
-  public remove(@Param('id') id: string): void {
+  public remove(@Param('id', validateUUID()) id: string): void {
     return this.albumService.remove(id);
   }
 }

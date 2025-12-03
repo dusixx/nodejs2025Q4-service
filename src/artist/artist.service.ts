@@ -1,5 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { validate } from 'uuid';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ErrorMessage } from '../common/constants';
 import { db } from '../common/db';
 import { ArtistResponseDto } from './dto/artist-response.dto';
@@ -58,9 +57,6 @@ export class ArtistService {
   }
 
   private findById(id: string): ArtistResponseDto {
-    if (!validate(id)) {
-      throw new BadRequestException(ErrorMessage.InvalidUUID);
-    }
     const artist = this.artists.get(id);
     if (!artist) {
       throw new NotFoundException(ErrorMessage.NotFound`artist`);

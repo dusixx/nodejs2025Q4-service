@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import * as net from 'net';
 import { exec } from 'node:child_process';
+import * as net from 'node:net';
 import { promisify } from 'node:util';
 import { sleep } from './misc';
 

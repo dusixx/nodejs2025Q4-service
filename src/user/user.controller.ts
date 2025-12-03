@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ErrorMessage } from '../common/constants';
+import { validateUUID } from '../common/utils';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UserResponseDto } from './dto/user-response.dto';
@@ -72,7 +73,7 @@ export class UserController {
     status: HttpStatus.NOT_FOUND,
     description: 'user not found',
   })
-  public findOne(@Param('id') id: string): UserResponseDto {
+  public findOne(@Param('id', validateUUID()) id: string): UserResponseDto {
     return this.userService.findOne(id);
   }
 
@@ -101,7 +102,7 @@ export class UserController {
     description: 'user not found',
   })
   public update(
-    @Param('id') id: string,
+    @Param('id', validateUUID()) id: string,
     @Body() updatePasswordDto: UpdatePasswordDto,
   ): UserResponseDto {
     return this.userService.updatePassword(id, updatePasswordDto);
@@ -127,7 +128,7 @@ export class UserController {
     status: HttpStatus.NOT_FOUND,
     description: 'user not found',
   })
-  public remove(@Param('id') id: string): void {
+  public remove(@Param('id', validateUUID()) id: string): void {
     this.userService.remove(id);
   }
 }

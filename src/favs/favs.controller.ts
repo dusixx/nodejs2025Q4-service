@@ -2,6 +2,7 @@ import { Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Req } from 
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { FavCollectionName } from '../common/db';
+import { validateUUID } from '../common/utils';
 import { FavsResponseDto } from './dto/favs-response.dto';
 import { FavsService } from './favs.service';
 
@@ -30,7 +31,10 @@ export class FavsController {
     status: HttpStatus.UNPROCESSABLE_ENTITY,
     description: `nothing to add to favs`,
   })
-  public create(@Param('id') id: string, @Req() req: Request): Record<string, unknown> {
+  public create(
+    @Param('id', validateUUID()) id: string,
+    @Req() req: Request,
+  ): Record<string, unknown> {
     const [, path] = req.path.match(/.+\/([^/]+)\//);
     this.favsService.create(id, `${path}s` as FavCollectionName);
 
@@ -68,7 +72,10 @@ export class FavsController {
     status: HttpStatus.NOT_FOUND,
     description: 'is not favorite',
   })
-  public remove(@Param('id') id: string, @Req() req: Request): Record<string, unknown> {
+  public remove(
+    @Param('id', validateUUID()) id: string,
+    @Req() req: Request,
+  ): Record<string, unknown> {
     const [, path] = req.path.match(/.+\/([^/]+)\//);
     this.favsService.remove(id, `${path}s` as FavCollectionName);
 

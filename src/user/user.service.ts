@@ -1,11 +1,9 @@
 import {
-  BadRequestException,
   ConflictException,
   ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { validate } from 'uuid';
 import { ErrorMessage } from '../common/constants';
 import { db } from '../common/db';
 import { omit } from '../common/utils/misc';
@@ -71,9 +69,6 @@ export class UserService {
   }
 
   private findById(id: string): User {
-    if (!validate(id)) {
-      throw new BadRequestException(ErrorMessage.InvalidUUID);
-    }
     const user = this.users.get(id);
     if (!user) {
       throw new NotFoundException(ErrorMessage.NotFound`user`);

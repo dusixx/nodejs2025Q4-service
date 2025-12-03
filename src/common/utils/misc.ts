@@ -1,3 +1,5 @@
+import { ParseUUIDPipe } from '@nestjs/common';
+import { UUID_VER } from '../constants';
 import { red } from './style';
 
 export const omit = <T extends object, K extends keyof T>(obj: T, ...keys: K[]): Omit<T, K> => {
@@ -28,4 +30,8 @@ export const getErrorMessage = (err: unknown, defaultMessage = 'something went w
 
 export const showError = (err: unknown): void => {
   console.log(red('Error: '), getErrorMessage(err));
+};
+
+export const validateUUID = (): ParseUUIDPipe => {
+  return new ParseUUIDPipe({ version: UUID_VER });
 };

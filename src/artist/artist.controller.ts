@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ErrorMessage } from '../common/constants';
+import { validateUUID } from '../common/utils';
 import { ArtistService } from './artist.service';
 import { ArtistResponseDto } from './dto/artist-response.dto';
 import { CreateArtistDto } from './dto/create-artist.dto';
@@ -68,7 +69,7 @@ export class ArtistController {
     status: HttpStatus.NOT_FOUND,
     description: 'artist not found',
   })
-  public findOne(@Param('id') id: string): ArtistResponseDto {
+  public findOne(@Param('id', validateUUID()) id: string): ArtistResponseDto {
     return this.artistService.findOne(id);
   }
 
@@ -93,7 +94,7 @@ export class ArtistController {
     description: 'artist not found',
   })
   public update(
-    @Param('id') id: string,
+    @Param('id', validateUUID()) id: string,
     @Body() updateArtistDto: UpdateArtistDto,
   ): ArtistResponseDto {
     return this.artistService.update(id, updateArtistDto);
@@ -119,7 +120,7 @@ export class ArtistController {
     status: HttpStatus.NOT_FOUND,
     description: 'artist not found',
   })
-  public remove(@Param('id') id: string): void {
+  public remove(@Param('id', validateUUID()) id: string): void {
     this.artistService.remove(id);
   }
 }

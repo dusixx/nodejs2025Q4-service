@@ -28,6 +28,7 @@ async function bootstrap(): Promise<void> {
 
   const appService = app.get(AppService);
   appService.endpoints = Object.keys(document.paths);
+  appService.port = port;
 
   app.useGlobalPipes(
     new ValidationPipe({

@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ErrorMessage } from '../common/constants';
+import { validateUUID } from '../common/utils';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { TrackResponseDto } from './dto/track-response.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
@@ -68,7 +69,7 @@ export class TrackController {
     status: HttpStatus.NOT_FOUND,
     description: 'track not found',
   })
-  findOne(@Param('id') id: string): TrackResponseDto {
+  findOne(@Param('id', validateUUID()) id: string): TrackResponseDto {
     return this.trackService.findOne(id);
   }
 
@@ -92,7 +93,10 @@ export class TrackController {
     status: HttpStatus.NOT_FOUND,
     description: 'track not found',
   })
-  update(@Param('id') id: string, @Body() updateTrackDto: UpdateTrackDto): TrackResponseDto {
+  update(
+    @Param('id', validateUUID()) id: string,
+    @Body() updateTrackDto: UpdateTrackDto,
+  ): TrackResponseDto {
     return this.trackService.update(id, updateTrackDto);
   }
 
@@ -116,7 +120,7 @@ export class TrackController {
     status: HttpStatus.NOT_FOUND,
     description: 'track not found',
   })
-  remove(@Param('id') id: string): void {
+  remove(@Param('id', validateUUID()) id: string): void {
     this.trackService.remove(id);
   }
 }

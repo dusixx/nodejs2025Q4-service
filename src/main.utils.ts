@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { OpenAPIObject } from '@nestjs/swagger';
-import { writeFileSync } from 'fs';
 import * as yaml from 'js-yaml';
+import { writeFileSync } from 'node:fs';
 import { cyan, showError, TimeoutError, tryReleasePort, yellow } from './common/utils';
 
 const API_YAML_PATH = './doc/api.yaml';

@@ -1,11 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-  UnprocessableEntityException,
-} from '@nestjs/common';
-import { validate } from 'uuid';
-import { ErrorMessage } from '../common/constants';
+import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { db, type FavCollectionName } from '../common/db';
 import { FavsResponseDto } from './dto/favs-response.dto';
 
@@ -14,9 +7,6 @@ export class FavsService {
   private favs = db.favs;
 
   public create(id: string, colName: FavCollectionName): void {
-    if (!validate(id)) {
-      throw new BadRequestException(ErrorMessage.InvalidUUID);
-    }
     if (!db[colName].has(id)) {
       throw new UnprocessableEntityException();
     }
@@ -32,9 +22,6 @@ export class FavsService {
   }
 
   public remove(id: string, colName: FavCollectionName): void {
-    if (!validate(id)) {
-      throw new BadRequestException(ErrorMessage.InvalidUUID);
-    }
     const success = this.favs[colName].delete(id);
     if (!success) {
       throw new NotFoundException();
