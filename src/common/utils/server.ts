@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import { exec } from 'node:child_process';
 import * as net from 'node:net';
 import { promisify } from 'node:util';
