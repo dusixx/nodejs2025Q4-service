@@ -1,10 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsPositive, IsString, IsUUID, ValidateIf } from 'class-validator';
+import {
+  IsBoolean,
+  IsInt,
+  IsNotEmpty,
+  IsPositive,
+  IsString,
+  IsUUID,
+  ValidateIf,
+} from 'class-validator';
 import { validate } from 'uuid';
 import { UUID_VER } from '../../common/constants';
-import { Album } from '../types';
+import { AlbumEntity } from '../entities/album.entity.js';
 
-export class AlbumResponseDto implements Album {
+export class AlbumResponseDto implements AlbumEntity {
   @ApiProperty({ description: 'uuid v4' })
   @IsUUID(UUID_VER)
   id: string;
@@ -23,4 +31,7 @@ export class AlbumResponseDto implements Album {
   @ApiProperty({ description: 'uuid v4 or null' })
   @ValidateIf((_, v) => v === null || validate(String(v)))
   artistId: string | null;
+
+  @IsBoolean()
+  isFavorite: boolean;
 }

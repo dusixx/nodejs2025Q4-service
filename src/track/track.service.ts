@@ -12,6 +12,7 @@ export class TrackService {
   public create({ name, albumId, artistId, duration }: CreateTrackDto): TrackResponseDto {
     const newItem: TrackResponseDto = {
       id: crypto.randomUUID(),
+      isFavorite: false,
       name,
       albumId,
       artistId,
@@ -39,12 +40,6 @@ export class TrackService {
 
   public remove(id: string): void {
     const track = this.findById(id);
-
-    db.favs.tracks.forEach((favId, _, col) => {
-      if (favId === id) {
-        col.delete(id);
-      }
-    });
     this.tracks.delete(track.id);
   }
 

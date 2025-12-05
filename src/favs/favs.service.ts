@@ -1,30 +1,31 @@
 import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { db, type FavCollectionName } from '../common/db';
 import { FavsResponseDto } from './dto/favs-response.dto';
+import { omit } from '../common/utils';
 
 @Injectable()
 export class FavsService {
-  private favs = db.favs;
-
   public create(id: string, colName: FavCollectionName): void {
     if (!db[colName].has(id)) {
       throw new UnprocessableEntityException();
     }
-    this.favs[colName].add(id);
+    const entity = db[colName].get(id);
+    entity.isFavorite = true;
   }
 
   public findAll(): FavsResponseDto {
     return {
-      artists: [...this.favs.artists].map(id => db.artists.get(id)),
-      albums: [...this.favs.albums].map(id => db.albums.get(id)),
-      tracks: [...this.favs.tracks].map(id => db.tracks.get(id)),
+      artists: [...db.artists.values()].filter(a => a.isFavorite).map(a => omit(a, 'isFavorite')),
+      albums: [...db.albums.values()].filter(a => a.isFavorite).map(a => omit(a, 'isFavorite')),
+      tracks: [...db.tracks.values()].filter(t => t.isFavorite).map(t => omit(t, 'isFavorite')),
     };
   }
 
   public remove(id: string, colName: FavCollectionName): void {
-    const success = this.favs[colName].delete(id);
-    if (!success) {
+    const fav = db[colName].get(id);
+    if (!fav) {
       throw new NotFoundException();
     }
+    fav.isFavorite = false;
   }
 }

@@ -1,10 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsPositive, IsString, IsUUID, ValidateIf } from 'class-validator';
+import {
+  IsBoolean,
+  IsInt,
+  IsNotEmpty,
+  IsPositive,
+  IsString,
+  IsUUID,
+  ValidateIf,
+} from 'class-validator';
 import { validate } from 'uuid';
 import { UUID_VER } from '../../common/constants';
-import { Track } from '../types';
+import { TrackEntity } from '../entities/track.entity.js';
 
-export class TrackResponseDto implements Track {
+export class TrackResponseDto implements TrackEntity {
   @ApiProperty({ description: 'uuid v4' })
   @IsUUID(UUID_VER)
   id: string;
@@ -27,4 +35,7 @@ export class TrackResponseDto implements Track {
   @IsPositive()
   @IsNotEmpty()
   duration: number;
+
+  @IsBoolean()
+  isFavorite: boolean;
 }

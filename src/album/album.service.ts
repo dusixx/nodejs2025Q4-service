@@ -12,6 +12,7 @@ export class AlbumService {
   public create({ name, artistId, year }: CreateAlbumDto): AlbumResponseDto {
     const newItem: AlbumResponseDto = {
       id: crypto.randomUUID(),
+      isFavorite: false,
       name,
       artistId,
       year,
@@ -42,11 +43,6 @@ export class AlbumService {
     db.tracks.forEach(track => {
       if (track.albumId === id) {
         track.albumId = null;
-      }
-    });
-    db.favs.albums.forEach((favId, _, col) => {
-      if (favId === id) {
-        col.delete(id);
       }
     });
     this.albums.delete(album.id);

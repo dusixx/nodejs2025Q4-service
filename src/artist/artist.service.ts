@@ -12,6 +12,7 @@ export class ArtistService {
   public create({ name, grammy }: CreateArtistDto): ArtistResponseDto {
     const newArtist: ArtistResponseDto = {
       id: crypto.randomUUID(),
+      isFavorite: false,
       name,
       grammy,
     };
@@ -46,11 +47,6 @@ export class ArtistService {
     db.albums.forEach(album => {
       if (album.artistId === id) {
         album.artistId = null;
-      }
-    });
-    db.favs.artists.forEach((favId, _, col) => {
-      if (favId === id) {
-        col.delete(id);
       }
     });
     this.artists.delete(artist.id);
