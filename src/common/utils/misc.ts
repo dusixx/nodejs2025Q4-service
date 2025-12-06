@@ -1,5 +1,5 @@
 import { ParseUUIDPipe } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '../../prisma/generated/client/client';
 import { UUID_VER } from '../constants';
 import { red } from './style';
 
