@@ -15,7 +15,7 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js', '**/test/**', '**/dist/**'],
+  ignorePatterns: ['.eslintrc.js', '**/test/**', '**/dist/**', '*.bak'],
   reportUnusedDisableDirectives: true,
   rules: {
     'prettier/prettier': [
