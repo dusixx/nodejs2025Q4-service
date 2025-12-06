@@ -8,3 +8,8 @@ export type User = {
 };
 
 export type UserWithoutPassword = Omit<User, 'password'>;
+
+export type UserDbEntity = Omit<User, 'createdAt' | 'updatedAt'> & {
+  createdAt: Date;
+  updatedAt: Date;
+};

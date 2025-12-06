@@ -5,6 +5,12 @@ import { sleep } from './misc';
 
 const execAsync = promisify(exec);
 
+export async function stopDockerCompose(): Promise<void> {
+  try {
+    await execAsync('docker-compose stop');
+  } catch {}
+}
+
 async function isPortAvailable(port: number | string): Promise<boolean> {
   return new Promise(resolve => {
     const server = net.createServer();

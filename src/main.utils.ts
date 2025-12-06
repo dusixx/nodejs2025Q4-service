@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { OpenAPIObject } from '@nestjs/swagger';
 import * as yaml from 'js-yaml';
 import { writeFileSync } from 'node:fs';
-import { cyan, showError, TimeoutError, tryReleasePort, yellow } from './common/utils';
+import { cyan, showError, TimeoutError, yellow } from './common/utils';
 
 const API_YAML_PATH = './doc/api.yaml';
 
@@ -13,7 +13,7 @@ export const startNestServer = async (
   console.log();
 
   try {
-    await tryReleasePort({ port });
+    // await tryReleasePort({ port });
     await app.listen(port);
     console.log(cyan(`\nServer is running on http://[::1]:${port}`));
   } catch (err) {
