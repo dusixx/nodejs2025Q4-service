@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
   output   = "./generated/client"
 }
 
@@ -20,8 +20,6 @@ model User {
   version   Int      @default(1)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@map("users")
 }
 
 model Artist {
@@ -31,8 +29,6 @@ model Artist {
   isFavorite Boolean @default(false)
   albums    Album[]
   tracks    Track[]
-
-  @@map("artists")
 }
 
 model Album {
@@ -43,8 +39,6 @@ model Album {
   isFavorite Boolean @default(false)
   tracks    Track[]
   artist    Artist?  @relation(fields: [artistId], references: [id], onDelete: SetNull)
-
-  @@map("albums")
 }
 
 model Track {
@@ -56,6 +50,4 @@ model Track {
   isFavorite Boolean @default(false)
   artist    Artist?  @relation(fields: [artistId], references: [id], onDelete: SetNull)
   album     Album?   @relation(fields: [albumId], references: [id], onDelete: SetNull)
-
-  @@map("tracks")
 }
