@@ -1,0 +1,31 @@
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+node_modules/
+test/
+coverage/
+
+.env
+.env.local
+.env.*.local
+
+.DS_Store
+.idea
+.vscode
+*.swp
+
+logs
+*.log
+
+.git
+.gitig
+
+dist/
+
+*.bak
+
+# prisma/client/ 
+# /generated
+# /doc
+# src/

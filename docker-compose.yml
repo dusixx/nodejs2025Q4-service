@@ -1,0 +1,60 @@
+version: '3.8'
+
+volumes:
+  postgres-data:
+  postgres-logs:
+  app-logs:
+
+services:
+  app:
+    container_name: home-lib-srv-app
+    image: dusixx/home-lib-srv-app:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?schema=public
+    restart: always
+    volumes:
+      - app-logs:/app/logs
+      - ./src:/app/src # hot reload
+      - ./prisma:/app/prisma # update prisma schema
+      - /app/node_modules # exclude node modules
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - database
+    networks:
+      - home-lib-network
+    develop: # watch mode
+      watch:
+        - action: sync+restart
+          path: ./src
+          target: /app/src
+          ignore:
+            - node_modules
+
+  database:
+    image: dusixx/home-lib-srv-db:latest
+    container_name: home-lib-srv-db
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - home-lib-network
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - postgres-logs:/var/log/postgresql
+
+networks:
+  home-lib-network:
+    driver: bridge
