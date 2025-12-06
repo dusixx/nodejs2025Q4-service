@@ -1,4 +1,5 @@
 import { ParseUUIDPipe } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { UUID_VER } from '../constants';
 import { red } from './style';
 
@@ -34,4 +35,10 @@ export const showError = (err: unknown): void => {
 
 export const validateUUID = (): ParseUUIDPipe => {
   return new ParseUUIDPipe({ version: UUID_VER });
+};
+
+export const isPrismaNotFoundError = (
+  err: unknown,
+): err is Prisma.PrismaClientKnownRequestError => {
+  return err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2025';
 };

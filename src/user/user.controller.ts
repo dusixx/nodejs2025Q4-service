@@ -34,8 +34,8 @@ export class UserController {
     status: HttpStatus.BAD_REQUEST,
     description: ErrorMessage.InvalidRequestBody,
   })
-  public create(@Body() createUserDto: CreateUserDto): UserResponseDto {
-    return this.userService.create(createUserDto);
+  public async create(@Body() createUserDto: CreateUserDto): Promise<UserResponseDto> {
+    return await this.userService.create(createUserDto);
   }
 
   @Get()
