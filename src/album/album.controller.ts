@@ -34,8 +34,8 @@ export class AlbumController {
     status: HttpStatus.BAD_REQUEST,
     description: ErrorMessage.InvalidRequestBody,
   })
-  public create(@Body() createAlbumDto: CreateAlbumDto): AlbumResponseDto {
-    return this.albumService.create(createAlbumDto);
+  public async create(@Body() createAlbumDto: CreateAlbumDto): Promise<AlbumResponseDto> {
+    return await this.albumService.create(createAlbumDto);
   }
 
   @Get()
@@ -45,8 +45,8 @@ export class AlbumController {
     description: 'return all albums',
     type: [AlbumResponseDto],
   })
-  public findAll(): AlbumResponseDto[] {
-    return this.albumService.findAll();
+  public async findAll(): Promise<AlbumResponseDto[]> {
+    return await this.albumService.findAll();
   }
 
   @Get(':id')
@@ -69,8 +69,8 @@ export class AlbumController {
     status: HttpStatus.NOT_FOUND,
     description: 'album not found',
   })
-  public findOne(@Param('id', validateUUID()) id: string): AlbumResponseDto {
-    return this.albumService.findOne(id);
+  public async findOne(@Param('id', validateUUID()) id: string): Promise<AlbumResponseDto> {
+    return await this.albumService.findOne(id);
   }
 
   @Put(':id')
@@ -93,11 +93,11 @@ export class AlbumController {
     status: HttpStatus.NOT_FOUND,
     description: 'album not found',
   })
-  public update(
+  public async update(
     @Param('id', validateUUID()) id: string,
     @Body() updateAlbumDto: UpdateAlbumDto,
-  ): AlbumResponseDto {
-    return this.albumService.update(id, updateAlbumDto);
+  ): Promise<AlbumResponseDto> {
+    return await this.albumService.update(id, updateAlbumDto);
   }
 
   @Delete(':id')
@@ -120,7 +120,7 @@ export class AlbumController {
     status: HttpStatus.NOT_FOUND,
     description: 'album not found',
   })
-  public remove(@Param('id', validateUUID()) id: string): void {
-    return this.albumService.remove(id);
+  public async remove(@Param('id', validateUUID()) id: string): Promise<void> {
+    return await this.albumService.remove(id);
   }
 }
