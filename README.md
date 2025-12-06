@@ -44,6 +44,16 @@ The `db` image will be run in docker
 npm run start:app
 ```
 
+- #### 🟥 Stop & Reset
+
+```sh
+# stop containers
+npm run docker:stop
+
+# stop containers and networks, delete volumes
+npm run docker:reset
+```
+
 ### 🧪 Testing
 
 Regardless of which method you chose to launch the `app`,
@@ -52,8 +62,15 @@ if everything went well, we move on to testing (in `another` terminal window).
 ```sh
 # run all tests
 npm test
+
 # run only one test
 npm run test -- <path_to_suite>
+```
+
+```sh
+# auto-fix and format
+npm run lint
+npm run format
 ```
 
 ### 🔵 Docker Hub
@@ -73,7 +90,7 @@ The sizes of both images do **not exceed 500 MiB**. To check this, use
 npm run docker:images
 ```
 
-The size we need is indicated in the column **`CONTENT SIZE`** (or just **`SIZE`**)
+The size we need is indicated in the column **`CONTENT SIZE`**
 
 ```sh
 IMAGE                            ID   DISK USAGE   CONTENT SIZE

@@ -36,7 +36,7 @@
     "docker:images": "docker images",
     "docker:start:db": "docker-compose up -d database",
     "docker:prune": "docker buildx prune --force",
-    "docker:reset": "docker-compose down -v && npm run docker:prune",
+    "docker:reset": "docker-compose down -v",
     "start:app": "docker-compose stop && docker-compose up -d database && npm run docker:start:db && npm run prisma:init:dev && npm run dev",
     "docker:pull": "docker pull dusixx/home-lib-srv-app:latest && docker pull dusixx/home-lib-srv-db:latest",
     "docker:network": "docker network inspect home-lib-network",
