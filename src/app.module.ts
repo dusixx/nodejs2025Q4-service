@@ -7,7 +7,7 @@ import { ArtistModule } from './artist/artist.module';
 import { FavsModule } from './favs/favs.module';
 import { TrackModule } from './track/track.module';
 import { UserModule } from './user/user.module';
-import { PrismaModule } from './prisma.module.js';
+import { PrismaModule } from './common/services/prisma.module.js';
 
 @Module({
   controllers: [AppController],
