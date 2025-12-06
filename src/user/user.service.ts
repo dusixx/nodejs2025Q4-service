@@ -6,46 +6,38 @@ import {
 } from '@nestjs/common';
 import { ErrorMessage } from '../common/constants';
 import { db } from '../common/db';
+import { PrismaService } from '../common/services/prisma.service';
 import { omit } from '../common/utils/misc';
+import { Prisma } from '../prisma/generated/client/client';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UserResponseDto } from './dto/user-response.dto';
 import { User } from './types';
+import { transformUser } from './user.utils';
 
 @Injectable()
 export class UserService {
-  private users = db.users;
+  constructor(private readonly prisma: PrismaService) {}
 
-  public create({ login, password }: CreateUserDto): UserResponseDto {
-    if (this.isUserExists(login)) {
-      throw new ConflictException('user with this name already exists');
-    }
-    const now = Date.now();
-    const newUser: User = {
-      id: crypto.randomUUID(),
-      login,
-      password,
-      version: 1,
-      createdAt: now,
-      updatedAt: now,
-    };
-    this.users.set(newUser.id, newUser);
-    return omit(newUser, 'password');
+  public create(createDto: CreateUserDto): UserResponseDto {
+    const newUser: Prisma.UserCreateInput = this.prisma.user.create({ data: createDto });
+    return transformUser(newUser);
   }
 
-  public findAll(): UserResponseDto[] {
-    return [...this.users.values()].map(user => omit(user, 'password'));
+  public async findAll(): Promise<UserResponseDto[]> {
+    const users = await this.prisma.user.findMany();
+    return users.map(transformUser);
   }
 
-  public findOne(id: string): UserResponseDto {
-    return omit(this.findById(id), 'password');
+  public async findOne(id: string): Promise<UserResponseDto> {
+    return omit(await this.findById(id), 'password');
   }
 
-  public updatePassword(
+  public async updatePassword(
     id: string,
     { newPassword, oldPassword }: UpdatePasswordDto,
-  ): UserResponseDto {
-    const user = this.findById(id);
+  ): Promise<UserResponseDto> {
+    const user = await this.findById(id);
     if (user.password !== oldPassword) {
       throw new ForbiddenException('old password is invalid');
     }
@@ -59,20 +51,16 @@ export class UserService {
     return omit(updated, 'password');
   }
 
-  public remove(id: string): void {
-    const user = this.findById(id);
+  public async remove(id: string): Promise<void> {
+    const user = await this.findById(id);
     this.users.delete(user.id);
   }
 
-  private isUserExists(login: string): User {
-    return [...this.users.values()].find(user => login === user.login);
-  }
-
-  private findById(id: string): User {
-    const user = this.users.get(id);
+  private async findById(id: string): Promise<User> {
+    const user = await this.prisma.user.findUnique({ where: { id } });
     if (!user) {
       throw new NotFoundException(ErrorMessage.NotFound`user`);
     }
-    return user;
+    return transformUser(user);
   }
 }

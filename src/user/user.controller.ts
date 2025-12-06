@@ -34,10 +34,6 @@ export class UserController {
     status: HttpStatus.BAD_REQUEST,
     description: ErrorMessage.InvalidRequestBody,
   })
-  @ApiResponse({
-    status: HttpStatus.CONFLICT,
-    description: 'user with this name already exists',
-  })
   public create(@Body() createUserDto: CreateUserDto): UserResponseDto {
     return this.userService.create(createUserDto);
   }
@@ -49,8 +45,8 @@ export class UserController {
     description: 'return all users',
     type: [UserResponseDto],
   })
-  public findAll(): UserResponseDto[] {
-    return this.userService.findAll();
+  public async findAll(): Promise<UserResponseDto[]> {
+    return await this.userService.findAll();
   }
 
   @Get(':id')
@@ -73,8 +69,8 @@ export class UserController {
     status: HttpStatus.NOT_FOUND,
     description: 'user not found',
   })
-  public findOne(@Param('id', validateUUID()) id: string): UserResponseDto {
-    return this.userService.findOne(id);
+  public async findOne(@Param('id', validateUUID()) id: string): Promise<UserResponseDto> {
+    return await this.userService.findOne(id);
   }
 
   @Put(':id')
@@ -101,11 +97,11 @@ export class UserController {
     status: HttpStatus.NOT_FOUND,
     description: 'user not found',
   })
-  public update(
+  public async update(
     @Param('id', validateUUID()) id: string,
     @Body() updatePasswordDto: UpdatePasswordDto,
-  ): UserResponseDto {
-    return this.userService.updatePassword(id, updatePasswordDto);
+  ): Promise<UserResponseDto> {
+    return await this.userService.updatePassword(id, updatePasswordDto);
   }
 
   @Delete(':id')
@@ -128,7 +124,7 @@ export class UserController {
     status: HttpStatus.NOT_FOUND,
     description: 'user not found',
   })
-  public remove(@Param('id', validateUUID()) id: string): void {
-    this.userService.remove(id);
+  public async remove(@Param('id', validateUUID()) id: string): Promise<void> {
+    await this.userService.remove(id);
   }
 }
