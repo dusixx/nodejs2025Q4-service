@@ -4,7 +4,6 @@ volumes:
   postgres-data:
   postgres-logs:
   app-logs:
-  app-node-modules:
 
 services:
   app:
@@ -12,15 +11,17 @@ services:
     image: dusixx/home-lib-srv-app:latest
     build:
       context: .
+      args:
+        POSTGRES_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?schema=public
+        POSTGRES_PORT: ${POSTGRES_PORT}
       dockerfile: Dockerfile.app
     env_file:
       - .env
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?schema=public
+      POSTGRES_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?schema=public
     restart: always
     volumes:
       - app-logs:/app/logs
-      - app-node-modules:/app/node_modules
     ports:
       - ${PORT}:${PORT}
     depends_on:
