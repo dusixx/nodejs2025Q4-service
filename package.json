@@ -28,6 +28,7 @@
     "docker:down": "docker-compose down",
     "docker:stop": "docker-compose stop",
     "docker:reset": "docker-compose down -v",
+    "docker:scan": "docker scout quickview dusixx/home-lib-srv-app:latest && docker scout quickview dusixx/home-lib-srv-db:latest",
     "prisma:migrate:dev:init": "npx prisma migrate dev --name init",
     "prisma:migrate:dev": "npx prisma migrate reset --force && npx prisma migrate dev",
     "prisma:migrate:deploy": "npx prisma migrate deploy",
@@ -35,8 +36,11 @@
     "prisma:init:dev": "npm run prisma:generate && npm run prisma:migrate:dev",
     "docker:images": "docker images",
     "docker:start:db": "docker-compose up -d database",
-    "docker:prune": "docker buildx prune",
-    "start:app:locally": "npm run docker:start:db && npm run prisma:init:dev && npm run dev"
+    "docker:prune": "docker buildx prune --force",
+    "start:app": "npm run docker:start:db && npm run prisma:init:dev && npm run dev",
+    "docker:pull:both": "docker pull dusixx/home-lib-srv-app:latest && docker pull dusixx/home-lib-srv-db:latest",
+    "docker:network": "docker network inspect home-lib-network",
+    "docker:volumes": "docker volume ls"
   },
   "dependencies": {
     "@nestjs/common": "^10.4.16",
