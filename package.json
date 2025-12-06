@@ -24,7 +24,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "fix:deps": "rm -rf node_modules package-lock.json && npm cache clean --force && npm i",
     "docker:build": "docker-compose up -d --build",
-    "docker:watch": "docker-compose stop && npm run docker:build && docker-compose watch",
+    "start:both": "docker-compose stop && npm run docker:build && docker-compose watch",
     "docker:down": "docker-compose down",
     "docker:stop": "docker-compose stop",
     "docker:scan": "docker scout quickview dusixx/home-lib-srv-app:latest && docker scout quickview dusixx/home-lib-srv-db:latest",
