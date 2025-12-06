@@ -1,9 +1,10 @@
-version: '3.8'
+version: '3.9'
 
 volumes:
   postgres-data:
   postgres-logs:
   app-logs:
+  app-node-modules:
 
 services:
   app:
@@ -19,9 +20,7 @@ services:
     restart: always
     volumes:
       - app-logs:/app/logs
-      - ./src:/app/src # hot reload
-      - ./prisma:/app/prisma # update prisma schema
-      - /app/node_modules # exclude node modules
+      - app-node-modules:/app/node_modules
     ports:
       - ${PORT}:${PORT}
     depends_on:
@@ -33,6 +32,8 @@ services:
         - action: sync+restart
           path: ./src
           target: /app/src
+        - action: rebuild
+          path: package.json
           ignore:
             - node_modules
 

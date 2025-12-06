@@ -32,7 +32,8 @@
     "prisma:migrate:dev": "npx prisma migrate dev",
     "prisma:migrate:deploy": "npx prisma migrate deploy",
     "docker:images": "docker images",
-    "docker:start:db": "docker-compose up -d database"
+    "docker:start:db": "docker-compose up -d database",
+    "docker:prune": "docker buildx prune"
   },
   "dependencies": {
     "@nestjs/common": "^10.4.16",
