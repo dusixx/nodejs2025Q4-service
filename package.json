@@ -24,7 +24,6 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "fix:deps": "rm -rf node_modules package-lock.json && npm cache clean --force && npm i",
     "docker:build": "docker-compose up -d --build",
-    "start:both": "docker-compose stop && npm run docker:build && docker-compose watch",
     "docker:down": "docker-compose down",
     "docker:stop": "docker-compose stop",
     "docker:scan": "docker scout quickview dusixx/home-lib-srv-app:latest && docker scout quickview dusixx/home-lib-srv-db:latest",
@@ -36,11 +35,12 @@
     "docker:images": "docker images",
     "docker:start:db": "docker-compose up -d database",
     "docker:prune": "docker buildx prune --force",
-    "docker:reset": "docker-compose down -v",
-    "start:app": "docker-compose stop && docker-compose up -d database && npm run docker:start:db && npm run prisma:init:dev && npm run dev",
+    "docker:reset": "docker-compose down -v --rmi all --remove-orphans",
     "docker:pull": "docker pull dusixx/home-lib-srv-app:latest && docker pull dusixx/home-lib-srv-db:latest",
     "docker:network": "docker network inspect home-lib-network",
-    "docker:volumes": "docker volume ls"
+    "docker:volumes": "docker volume ls",
+    "start:both": "npm run docker:reset && npm run docker:build && docker-compose watch",
+    "start:app": "npm run docker:reset && docker-compose up -d database && npm run prisma:init:dev && npm run dev"
   },
   "dependencies": {
     "@nestjs/common": "^10.4.16",

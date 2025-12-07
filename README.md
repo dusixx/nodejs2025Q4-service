@@ -16,11 +16,9 @@ cp .env.example .env
 - Install [Docker](https://docs.docker.com/engine/install/)
 - Create `Docker Hub` account [Docker Hub](https://hub.docker.com/)
 - Use `24.x.x` version (or upper) of Node.js
-
-## ⚠️ Important
-
 - If you are a **Windows** user, download and **run** [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- **Stop all applications** running on the same ports as our `app` (default `4000`) and `db` (default `5432`)
+- ❗ **Stop all** applications running on the same ports as our `app` (default `4000`) and `db` (default `5432`)
+
 
 ## 🚀 Running
 
@@ -30,6 +28,7 @@ Run both (`app` and `db`) images in docker `watch mode`.
 If successful, the console will display the message **Watch enabled**
 
 ```sh
+# reset -> compose both -> watch
 npm run start:both
 ```
 
@@ -41,6 +40,7 @@ Run the `app` (`prismа generate` and `migration` will occur automatically)
 The `db` image will be run in docker
 
 ```sh
+# reset -> compose db -> generate/migrate -> run dev
 npm run start:app
 ```
 
@@ -105,13 +105,15 @@ Or you can see the size in the `Docker Hub` repository on the `Tags` tab.
 
 ### 🐞 Vulnerabilities scanning
 
-To scan both images, use the command (you need to wait a little)
+To scan both images
 
 ```sh
 npm run docker:scan
 ```
 
-**Scan results**
+<details>
+<summary><b>Scan results</b></summary>
+<pre style='font-size:16px;line-height:1'>
 
 ```sh
   Target             │  dusixx/home-lib-srv-app:latest  │    0C     3H     3M     0L
@@ -128,10 +130,12 @@ npm run docker:scan
   Updated base image │  alpine:3.21                    │    0C     0H     0M     2L
                      │                                 │                         +2
 ```
+</pre>
+</details>
 
 ### 🕸️ Network config (bridge)
 
-To see network settings, use
+To see network settings
 
 ```sh
 npm run docker:network
@@ -227,7 +231,5 @@ local     nodejs2025q4-service_postgres-logs
 ### 🟢 Open API
 
 After launching the application on port `4000` (default),
-
 you can open the `OpenAPI documentation` in your browser at
-
 http://localhost:4000/doc
