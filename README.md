@@ -76,30 +76,35 @@ npm run format
 
 ## 🔵 Docker Hub
 
+Both images are uploaded to Docker Hub
+
+- [App image](https://hub.docker.com/r/dusixx/home-lib-srv-app/tags)
+- [DB image](https://hub.docker.com/r/dusixx/home-lib-srv-db/tags)
+
 To download the latest versions of images, use
 
 ```sh
 npm run docker:pull
 ```
 
-The size of each image does not exceed 500 MiB. To check this, use
+The size of each image does not exceed `500 MiB`. To check this, use
 
 ```sh
 npm run docker:images
 ```
 
-The size we need is indicated in the column `CONTENT SIZE`
+<details>
+<summary><b>Image sizes</b></summary>
+<pre style='font-size:16px;line-height:1'>
 
 ```sh
-IMAGE                            ID   DISK USAGE   CONTENT SIZE
-dusixx/home-lib-srv-app:latest   --       --          134MB <--
-dusixx/home-lib-srv-db:latest    --       --          110MB <--
+IMAGE                            ID             DISK USAGE   CONTENT SIZE   EXTRA
+dusixx/home-lib-srv-app:latest   0055609964fa    --> 485MB      --> 107MB    U
+dusixx/home-lib-srv-db:latest    f4c39bb973f3    --> 395MB      --> 110MB    U
 ```
 
-Also you can check the size in the `Docker Hub` repo under the `Tags`
-
-- [App image](https://hub.docker.com/r/dusixx/home-lib-srv-app/tags)
-- [DB image](https://hub.docker.com/r/dusixx/home-lib-srv-db/tags)
+</pre>
+</details>
 
 ## 🐞 Vulnerabilities scanning
 
