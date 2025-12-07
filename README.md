@@ -7,7 +7,9 @@ git checkout part2
 npm ci
 ```
 
-❗ **Create `.env` file from `.env.example`**
+### ❗ Strictly necessary 
+
+Create `.env` file from `.env.example`
 
 ```sh
 cp .env.example .env
@@ -17,6 +19,8 @@ cp .env.example .env
 - Create [Docker Hub](https://hub.docker.com/) account
 - Use `24.x.x` version (or upper) of Node.js
 - If you are a `Windows` user, download and run [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+---
 
 # 🚀 Running
 
@@ -42,6 +46,8 @@ npm run start:both
 ### 🔥 Hot reload
 in `Both` mode the app will `restart` when changes are made in the `src` folder and `rebuild` when changing the `package.json`
 
+---
+
 ## 2. DB only
 
 Run the `app` locally. The `db` image will be run in docker
@@ -49,6 +55,8 @@ Run the `app` locally. The `db` image will be run in docker
 ```sh
 npm run start:app
 ```
+
+---
 
 # 🧪 Testing
 
@@ -68,6 +76,8 @@ npm run test -- <path_to_suite>
 npm run lint
 npm run format
 ```
+
+---
 
 # 🔵 Docker Hub
 
@@ -94,6 +104,8 @@ dusixx/home-lib-srv-app:latest   0055609964fa    --> 485MB      --> 107MB    U
 dusixx/home-lib-srv-db:latest    f4c39bb973f3    --> 395MB      --> 110MB    U
 ```
 
+---
+
 # 🐞 Vulnerabilities scanning
 
 To scan both images
@@ -117,6 +129,8 @@ npm run docker:scan
   Updated base image │  alpine:3.21                    │    0C     0H     0M     2L
                      │                                 │                         +2
 ```
+
+---
 
 # 🕸️ Network config
 
@@ -198,6 +212,8 @@ npm run docker:network
 </pre>
 </details>
 
+---
+
 # 🗃️ Docker volumes
 
 To see volumes list, use
@@ -213,6 +229,8 @@ local     nodejs2025q4-service_postgres-data
 local     nodejs2025q4-service_postgres-logs
 ```
 
+---
+
 # ℹ️ Useful commands
 
 ```sh
@@ -227,6 +245,8 @@ npm run docker:stop
 # stop and remove project resources (containers, volumes, images and dangling build cache)
 npm run docker:cleanup
 ```
+
+---
 
 # 🟢 Open API
 
