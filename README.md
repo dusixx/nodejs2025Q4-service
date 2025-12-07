@@ -17,11 +17,21 @@ cp .env.example .env
 - Create [Docker Hub](https://hub.docker.com/) account
 - Use `24.x.x` version (or upper) of Node.js
 - If you are a `Windows` user, download and run [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- `Stop all` applications running on the same ports as our `app` (default `4000`) and `db` (default `5432`)
 
 ## 🚀 Running
 
-#### 1.Both
+---
+
+⚠️ **Stop all** applications running on the same ports as our `app` (default `4000`) and `db` (default `5432`). For example, if you were previously running `DB only` and want to run `Both`, close the local `nestjs app` (press `Ctrl+C` in the terminal where the `nestjs` logs are located) or `use the command` below.
+
+🆘 If something goes wrong, use the command below, and then try running `Both` or `DB Only` again. This will terminate the `node` and `docker-composer`
+```sh
+npm run kill:all
+```
+
+---
+
+#### 1. Both
 
 Run both (`app` and `db`) images in docker `watch mode`.
 If successful, the console will display the message `Watch enabled`
@@ -34,7 +44,7 @@ npm run start:both
 
 #### 2. DB only
 
-Run the `app`. The `db` image will be run in docker
+Run the `app` locally. The `db` image will be run in docker
 
 ```sh
 npm run start:app

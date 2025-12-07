@@ -4,7 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { AppService } from './app.service';
-import { DEF_PORT } from './common/constants';
+import { DEF_APP_PORT } from './common/constants';
 import { startNestServer, updateYAMLDoc } from './main.utils';
 
 const VERSION = '1.0.0';
@@ -13,7 +13,7 @@ const TITLE = 'Home Library Service';
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
-  const port = configService.get<string>('PORT') || DEF_PORT;
+  const port = configService.get<string>('PORT') || DEF_APP_PORT;
 
   app.enableCors();
 

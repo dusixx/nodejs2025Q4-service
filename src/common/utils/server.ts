@@ -31,6 +31,20 @@ const tryKillWin32Task = async (pid: string | number): Promise<void> => {
   }
 };
 
+export const tryKillTask = async (name: string, ext: string = 'exe'): Promise<void> => {
+  try {
+    if (process.platform === 'win32') {
+      await execAsync(`taskkill /f /im ${name}.${ext.toLowerCase()}`);
+    } else {
+      try {
+        await execAsync(`killall -9 ${name}`);
+      } catch {
+        await execAsync(`pkill -9 ${name}`);
+      }
+    }
+  } catch {}
+};
+
 const tryKillServer = async (port: number | string): Promise<void> => {
   try {
     if (process.platform === 'win32') {

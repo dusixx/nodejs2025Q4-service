@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { DEF_PORT } from './common/constants';
+import { DEF_APP_PORT } from './common/constants';
 
 @Injectable()
 export class AppService {
   public endpoints: string[] = [];
-  public port: string | number = DEF_PORT;
+  public port: string | number = DEF_APP_PORT;
 
   getEndpointsList(): string {
     return `
