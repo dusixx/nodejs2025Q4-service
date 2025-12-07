@@ -20,8 +20,6 @@ cp .env.example .env
 - Use `24.x.x` version (or upper) of Node.js
 - If you are a `Windows` user, download and run [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
----
-
 # 🚀 Running
 
 ⚠️ **Stop all** applications running on the same ports as our `app` (default `4000`) and `db` (default `5432`). For example, if you were previously running `DB only` and want to run `Both`, close the local `nestjs app` (press `Ctrl+C` in the terminal where the `nestjs` logs are located) or `use the command` below.
@@ -32,8 +30,6 @@ cp .env.example .env
 npm run kill:all
 ```
 
----
-
 ## 1. Both
 
 Run both (`app` and `db`) images in docker `watch mode`.
@@ -43,10 +39,8 @@ If successful, the console will display the message `Watch enabled`
 npm run start:both
 ```
 
-### 🔥 Hot reload
+## 🔥 Hot reload
 in `Both` mode the app will `restart` when changes are made in the `src` folder and `rebuild` when changing the `package.json`
-
----
 
 ## 2. DB only
 
@@ -55,8 +49,6 @@ Run the `app` locally. The `db` image will be run in docker
 ```sh
 npm run start:app
 ```
-
----
 
 # 🧪 Testing
 
@@ -76,8 +68,6 @@ npm run test -- <path_to_suite>
 npm run lint
 npm run format
 ```
-
----
 
 # 🔵 Docker Hub
 
@@ -104,8 +94,6 @@ dusixx/home-lib-srv-app:latest   0055609964fa    --> 485MB      --> 107MB    U
 dusixx/home-lib-srv-db:latest    f4c39bb973f3    --> 395MB      --> 110MB    U
 ```
 
----
-
 # 🐞 Vulnerabilities scanning
 
 To scan both images
@@ -129,8 +117,6 @@ npm run docker:scan
   Updated base image │  alpine:3.21                    │    0C     0H     0M     2L
                      │                                 │                         +2
 ```
-
----
 
 # 🕸️ Network config
 
@@ -212,8 +198,6 @@ npm run docker:network
 </pre>
 </details>
 
----
-
 # 🗃️ Docker volumes
 
 To see volumes list, use
@@ -229,8 +213,6 @@ local     nodejs2025q4-service_postgres-data
 local     nodejs2025q4-service_postgres-logs
 ```
 
----
-
 # ℹ️ Useful commands
 
 ```sh
@@ -245,8 +227,6 @@ npm run docker:stop
 # stop and remove project resources (containers, volumes, images and dangling build cache)
 npm run docker:cleanup
 ```
-
----
 
 # 🟢 Open API
 
