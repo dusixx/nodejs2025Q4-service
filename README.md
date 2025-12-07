@@ -20,11 +20,10 @@ cp .env.example .env
 
 # 🚀 Running
 
----
-
 ⚠️ **Stop all** applications running on the same ports as our `app` (default `4000`) and `db` (default `5432`). For example, if you were previously running `DB only` and want to run `Both`, close the local `nestjs app` (press `Ctrl+C` in the terminal where the `nestjs` logs are located) or `use the command` below.
 
 🆘 If something goes wrong, use the command below, and then try running `Both` or `DB Only` again. This will terminate the `node` and `docker-composer`
+
 ```sh
 npm run kill:all
 ```
@@ -48,21 +47,6 @@ Run the `app` locally. The `db` image will be run in docker
 
 ```sh
 npm run start:app
-```
-
-## Useful commands
-
-```sh
-# list running docker containers
-npm run docker:ps
-```
-
-```sh
-# stop containers
-npm run docker:stop
-
-# stop and remove project resources (containers, volumes, images and dangling build cache)
-npm run docker:cleanup
 ```
 
 # 🧪 Testing
@@ -226,6 +210,21 @@ DRIVER    VOLUME NAME
 local     nodejs2025q4-service_app-logs
 local     nodejs2025q4-service_postgres-data
 local     nodejs2025q4-service_postgres-logs
+```
+
+# ℹ️ Useful commands
+
+```sh
+# list running docker containers
+npm run docker:ps
+```
+
+```sh
+# stop containers
+npm run docker:stop
+
+# stop and remove project resources (containers, volumes, images and dangling build cache)
+npm run docker:cleanup
 ```
 
 # 🟢 Open API
