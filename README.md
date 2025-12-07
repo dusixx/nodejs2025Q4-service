@@ -24,7 +24,7 @@ cp .env.example .env
 
 ⚠️ **Stop all** applications running on the same ports as our `app` (default `4000`) and `db` (default `5432`). For example, if you were previously running `DB only` and want to run `Both`, close the local `nestjs app` (press `Ctrl+C` in the terminal where the `nestjs` logs are located) or `use the command` below.
 
-🆘 If something goes wrong, use the command below, and then try running `Both` or `DB Only` again. This will terminate the `node` and `docker-composer`
+🆘 **If something goes wrong**, use the command below, and then try running `Both` or `DB Only` again. This will terminate the `node` and `docker-composer`
 
 ```sh
 npm run kill:all
@@ -39,7 +39,7 @@ If successful, the console will display the message `Watch enabled`
 npm run start:both
 ```
 
-## 🔥 Hot reload
+### 🔥 Hot reload
 in `Both` mode the app will `restart` when changes are made in the `src` folder and `rebuild` when changing the `package.json`
 
 ## 2. DB only
