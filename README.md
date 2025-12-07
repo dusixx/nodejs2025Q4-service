@@ -14,11 +14,10 @@ cp .env.example .env
 ```
 
 - Install [Docker](https://docs.docker.com/engine/install/)
-- Create [Docker Hub](https://hub.docker.com/) account 
+- Create [Docker Hub](https://hub.docker.com/) account
 - Use `24.x.x` version (or upper) of Node.js
 - If you are a `Windows` user, download and run [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 - `Stop all` applications running on the same ports as our `app` (default `4000`) and `db` (default `5432`)
-
 
 ## 🚀 Running
 
@@ -41,14 +40,19 @@ Run the `app`. The `db` image will be run in docker
 npm run start:app
 ```
 
-#### Stop & Cleanup
+#### Useful commands
+
+```sh
+# list running docker containers
+npm run docker:ps
+```
 
 ```sh
 # stop containers
 npm run docker:stop
 
-# stop containers and networks, delete volumes
-npm run docker:reset
+# stop and remove project resources (containers, volumes, images and dangling build cache)
+npm run docker:cleanup
 ```
 
 ## 🧪 Testing
@@ -77,9 +81,6 @@ To download the latest versions of images, use
 ```sh
 npm run docker:pull
 ```
-
-`NOTE:` this is not necessary — they will be downloaded automatically,
-when you run the app with `npm run start:both`.
 
 The size of each image does not exceed 500 MiB. To check this, use
 
@@ -127,6 +128,7 @@ npm run docker:scan
   Updated base image │  alpine:3.21                    │    0C     0H     0M     2L
                      │                                 │                         +2
 ```
+
 </pre>
 </details>
 

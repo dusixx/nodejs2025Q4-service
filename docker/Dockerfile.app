@@ -1,5 +1,7 @@
 FROM node:24-alpine AS builder
 
+RUN apk add --no-cache openssl libc6-compat
+
 ARG POSTGRES_URL
 
 WORKDIR /app
@@ -14,6 +16,8 @@ ENV POSTGRES_URL=${POSTGRES_URL}
 RUN npx prisma generate
 
 FROM node:24-alpine
+
+RUN apk add --no-cache openssl libc6-compat
 
 WORKDIR /app
 

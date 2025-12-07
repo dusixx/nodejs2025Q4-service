@@ -9,9 +9,9 @@ services:
     image: dusixx/home-lib-srv-app:latest
     build:
       context: .
+      dockerfile: ./docker/Dockerfile.app
       args:
         POSTGRES_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?schema=public
-      dockerfile: Dockerfile.app
     env_file:
       - .env
     environment:
@@ -40,7 +40,7 @@ services:
     image: dusixx/home-lib-srv-db:latest
     container_name: home-lib-srv-db
     build:
-      context: .
+      context: ./docker
       dockerfile: Dockerfile.db
     restart: unless-stopped
     environment:
