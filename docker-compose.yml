@@ -1,5 +1,3 @@
-version: '3.8'
-
 volumes:
   postgres-data:
   postgres-logs:
@@ -65,7 +63,7 @@ networks:
     ipam:
       config:
         - subnet: ${NETWORK_SUBNET}
-          gateway: ${NETWORK_GATEAWAY}
+          gateway: ${NETWORK_GATEWAY}
     attachable: true
     driver_opts:
       com.docker.network.bridge.name: ${NETWORK_BRIDGE_NAME}

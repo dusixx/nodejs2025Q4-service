@@ -13,7 +13,6 @@ export const startNestServer = async (
   console.log();
 
   try {
-    // await tryReleasePort({ port });
     await app.listen(port);
     console.log(cyan(`\nServer is running on http://[::1]:${port}`));
   } catch (err) {

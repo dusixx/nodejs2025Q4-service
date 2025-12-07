@@ -14,37 +14,34 @@ cp .env.example .env
 ```
 
 - Install [Docker](https://docs.docker.com/engine/install/)
-- Create `Docker Hub` account [Docker Hub](https://hub.docker.com/)
+- Create [Docker Hub](https://hub.docker.com/) account 
 - Use `24.x.x` version (or upper) of Node.js
-- If you are a **Windows** user, download and **run** [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- ❗ **Stop all** applications running on the same ports as our `app` (default `4000`) and `db` (default `5432`)
+- If you are a `Windows` user, download and run [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- `Stop all` applications running on the same ports as our `app` (default `4000`) and `db` (default `5432`)
 
 
 ## 🚀 Running
 
-- #### 1️⃣ Both
+#### 1.Both
 
 Run both (`app` and `db`) images in docker `watch mode`.
-If successful, the console will display the message **Watch enabled**
+If successful, the console will display the message `Watch enabled`
 
 ```sh
-# reset -> compose both -> watch
 npm run start:both
 ```
 
-**`NOTE:`** In this mode, the application will **restart** when changes are made in the **`src/`** and **rebuild** when changing the **`package.json`**.
+`NOTE:` in this mode, the application will `restart` when changes are made in the `src` folder and `rebuild` when changing the `package.json` file
 
-- #### 2️⃣ DB only
+#### 2. DB only
 
-Run the `app` (`prismа generate` and `migration` will occur automatically)
-The `db` image will be run in docker
+Run the `app`. The `db` image will be run in docker
 
 ```sh
-# reset -> compose db -> generate/migrate -> run dev
 npm run start:app
 ```
 
-- #### 🟥 Stop & Reset
+#### Stop & Cleanup
 
 ```sh
 # stop containers
@@ -54,10 +51,10 @@ npm run docker:stop
 npm run docker:reset
 ```
 
-### 🧪 Testing
+## 🧪 Testing
 
 Regardless of which method you chose to launch the `app`,
-if everything went well, we move on to testing (in `another` terminal window).
+if everything went well, we move on to testing (use another terminal window).
 
 ```sh
 # run all tests
@@ -73,37 +70,37 @@ npm run lint
 npm run format
 ```
 
-### 🔵 Docker Hub
+## 🔵 Docker Hub
 
-You can **download** the latest versions of both images
+To download the latest versions of images, use
 
 ```sh
 npm run docker:pull
 ```
 
-However, this is not necessary — they will be downloaded automatically,
+`NOTE:` this is not necessary — they will be downloaded automatically,
 when you run the app with `npm run start:both`.
 
-The sizes of both images do **not exceed 500 MiB**. To check this, use
+The size of each image does not exceed 500 MiB. To check this, use
 
 ```sh
 npm run docker:images
 ```
 
-The size we need is indicated in the column **`CONTENT SIZE`**
+The size we need is indicated in the column `CONTENT SIZE`
 
 ```sh
 IMAGE                            ID   DISK USAGE   CONTENT SIZE
-dusixx/home-lib-srv-app:latest   --       --          134MB
-dusixx/home-lib-srv-db:latest    --       --          110MB
+dusixx/home-lib-srv-app:latest   --       --          134MB <--
+dusixx/home-lib-srv-db:latest    --       --          110MB <--
 ```
 
-Or you can see the size in the `Docker Hub` repository on the `Tags` tab.
+Also you can check the size in the `Docker Hub` repo under the `Tags`
 
 - [App image](https://hub.docker.com/r/dusixx/home-lib-srv-app/tags)
 - [DB image](https://hub.docker.com/r/dusixx/home-lib-srv-db/tags)
 
-### 🐞 Vulnerabilities scanning
+## 🐞 Vulnerabilities scanning
 
 To scan both images
 
@@ -133,7 +130,7 @@ npm run docker:scan
 </pre>
 </details>
 
-### 🕸️ Network config (bridge)
+## 🕸️ Network config
 
 To see network settings
 
@@ -213,7 +210,7 @@ npm run docker:network
 </pre>
 </details>
 
-### 🗃️ Docker volumes
+## 🗃️ Docker volumes
 
 To see volumes list, use
 
@@ -228,7 +225,7 @@ local     nodejs2025q4-service_postgres-data
 local     nodejs2025q4-service_postgres-logs
 ```
 
-### 🟢 Open API
+## 🟢 Open API
 
 After launching the application on port `4000` (default),
 you can open the `OpenAPI documentation` in your browser at
