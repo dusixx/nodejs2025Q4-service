@@ -1,4 +1,4 @@
-## ⚙️ Install & Setup
+# ⚙️ Install & Setup
 
 ```sh
 git clone git@github.com:dusixx/nodejs2025Q4-service.git
@@ -18,7 +18,7 @@ cp .env.example .env
 - Use `24.x.x` version (or upper) of Node.js
 - If you are a `Windows` user, download and run [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
-## 🚀 Running
+# 🚀 Running
 
 ---
 
@@ -31,7 +31,7 @@ npm run kill:all
 
 ---
 
-#### 1. Both
+## 1. Both
 
 Run both (`app` and `db`) images in docker `watch mode`.
 If successful, the console will display the message `Watch enabled`
@@ -42,7 +42,7 @@ npm run start:both
 
 `NOTE:` in this mode, the application will `restart` when changes are made in the `src` folder and `rebuild` when changing the `package.json` file
 
-#### 2. DB only
+## 2. DB only
 
 Run the `app` locally. The `db` image will be run in docker
 
@@ -50,7 +50,7 @@ Run the `app` locally. The `db` image will be run in docker
 npm run start:app
 ```
 
-#### Useful commands
+## Useful commands
 
 ```sh
 # list running docker containers
@@ -65,7 +65,7 @@ npm run docker:stop
 npm run docker:cleanup
 ```
 
-## 🧪 Testing
+# 🧪 Testing
 
 Regardless of which method you chose to launch the `app`,
 if everything went well, we move on to testing (use another terminal window).
@@ -84,7 +84,7 @@ npm run lint
 npm run format
 ```
 
-## 🔵 Docker Hub
+# 🔵 Docker Hub
 
 Both images are uploaded to Docker Hub
 
@@ -103,30 +103,19 @@ The size of each image does not exceed `500 MiB`. To check this, use
 npm run docker:images
 ```
 
-<details>
-<summary><b>Image sizes</b></summary>
-<pre style='font-size:16px;line-height:1'>
-
 ```sh
 IMAGE                            ID             DISK USAGE   CONTENT SIZE   EXTRA
 dusixx/home-lib-srv-app:latest   0055609964fa    --> 485MB      --> 107MB    U
 dusixx/home-lib-srv-db:latest    f4c39bb973f3    --> 395MB      --> 110MB    U
 ```
 
-</pre>
-</details>
-
-## 🐞 Vulnerabilities scanning
+# 🐞 Vulnerabilities scanning
 
 To scan both images
 
 ```sh
 npm run docker:scan
 ```
-
-<details>
-<summary><b>Scan results</b></summary>
-<pre style='font-size:16px;line-height:1'>
 
 ```sh
   Target             │  dusixx/home-lib-srv-app:latest  │    0C     3H     3M     0L
@@ -144,10 +133,7 @@ npm run docker:scan
                      │                                 │                         +2
 ```
 
-</pre>
-</details>
-
-## 🕸️ Network config
+# 🕸️ Network config
 
 To see network settings
 
@@ -227,7 +213,7 @@ npm run docker:network
 </pre>
 </details>
 
-## 🗃️ Docker volumes
+# 🗃️ Docker volumes
 
 To see volumes list, use
 
@@ -242,7 +228,7 @@ local     nodejs2025q4-service_postgres-data
 local     nodejs2025q4-service_postgres-logs
 ```
 
-## 🟢 Open API
+# 🟢 Open API
 
 After launching the application on port `4000` (default),
 you can open the `OpenAPI documentation` in your browser at
