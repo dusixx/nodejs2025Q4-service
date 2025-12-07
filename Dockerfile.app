@@ -1,7 +1,6 @@
 FROM node:24-alpine AS builder
 
 ARG POSTGRES_URL
-ARG POSTGRES_PORT
 
 WORKDIR /app
 
@@ -27,7 +26,5 @@ COPY --from=builder --chown=node:node /app/dist ./dist
 COPY --from=builder --chown=node:node /app/prisma.config.ts ./
 COPY --from=builder --chown=node:node /app/src/prisma ./src/prisma
 COPY --from=builder --chown=node:node /app/doc ./doc
-
-EXPOSE ${POSTGRES_PORT}
 
 CMD ["sh", "-c", "npx prisma migrate deploy && node dist/src/main.js"]

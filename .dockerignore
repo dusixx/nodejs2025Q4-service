@@ -2,9 +2,9 @@ Dockerfile*
 docker-compose*.yml
 .dockerignore
 
-node_modules/
-test/
-coverage/
+node_modules
+test
+coverage
 
 .env
 .env.local
@@ -21,11 +21,6 @@ logs
 .git
 .gitig
 
-dist/
+dist
 
 *.bak
-
-# prisma/client/ 
-# /generated
-# /doc
-# src/
