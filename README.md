@@ -39,7 +39,8 @@ If successful, the console will display the message `Watch enabled`
 npm run start:both
 ```
 
-`NOTE:` in this mode, the application will `restart` when changes are made in the `src` folder and `rebuild` when changing the `package.json` file
+### 🔥 Hot reload
+in `Both` mode the app will `restart` when changes are made in the `src` folder and `rebuild` when changing the `package.json`
 
 ## 2. DB only
 
