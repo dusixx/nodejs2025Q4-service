@@ -7,7 +7,7 @@ git checkout part2
 npm ci
 ```
 
-### ❗ Strictly necessary 
+### ❗ Strictly necessary
 
 Create `.env` file from `.env.example`
 
@@ -30,11 +30,12 @@ npm run kill:all
 
 ## 1. Both
 
-Run both (`app` and `db`) images in docker
+Run both docker images (`app` and `db`)
 
 ```sh
 # run containers in the background
 docker-compose up -d
+
 
 # run prisma generate and migrate
 npm run prisma:init:dev
