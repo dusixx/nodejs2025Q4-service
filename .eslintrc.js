@@ -6,7 +6,6 @@ module.exports = {
   },
   plugins: ['@typescript-eslint/eslint-plugin'],
   extends: [
-    'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
     'plugin:@typescript-eslint/strict',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
@@ -16,7 +15,8 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js', '**/test/**', '**/dist/**'],
+  ignorePatterns: ['.eslintrc.js', '**/test/**', '**/dist/**', '*.bak'],
+  reportUnusedDisableDirectives: true,
   rules: {
     'prettier/prettier': [
       'error',
@@ -38,5 +38,6 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'warn',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/no-extraneous-class': 'off',
   },
 };

@@ -1,0 +1,69 @@
+volumes:
+  postgres-data:
+  postgres-logs:
+  app-logs:
+
+services:
+  app:
+    container_name: home-lib-srv-app
+    image: dusixx/home-lib-srv-app:latest
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        POSTGRES_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?schema=public
+    env_file:
+      - .env
+    environment:
+      POSTGRES_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?schema=public
+    restart: unless-stopped
+    volumes:
+      - app-logs:/app/logs
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - database
+    networks:
+      home-lib-network:
+        ipv4_address: ${APP_IP}
+    develop: # watch mode
+      watch:
+        - action: sync+restart
+          path: ./src
+          target: /app/src
+        - action: rebuild
+          path: package.json
+          ignore:
+            - node_modules
+
+  database:
+    image: dusixx/home-lib-srv-db:latest
+    container_name: home-lib-srv-db
+    build:
+      context: ./docker
+      dockerfile: Dockerfile.db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      home-lib-network:
+        ipv4_address: ${POSTRGES_IP}
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - postgres-logs:/var/log/postgresql
+
+networks:
+  home-lib-network:
+    driver: bridge
+    name: ${NETWORK_NAME}
+    ipam:
+      config:
+        - subnet: ${NETWORK_SUBNET}
+          gateway: ${NETWORK_GATEWAY}
+    attachable: true
+    driver_opts:
+      com.docker.network.bridge.name: ${NETWORK_BRIDGE_NAME}

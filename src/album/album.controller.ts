@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ErrorMessage } from '../common/constants';
+import { validateUUID } from '../common/utils';
 import { AlbumService } from './album.service';
 import { AlbumResponseDto } from './dto/album-response.dto';
 import { CreateAlbumDto } from './dto/create-album.dto';
@@ -33,8 +34,8 @@ export class AlbumController {
     status: HttpStatus.BAD_REQUEST,
     description: ErrorMessage.InvalidRequestBody,
   })
-  public create(@Body() createAlbumDto: CreateAlbumDto): AlbumResponseDto {
-    return this.albumService.create(createAlbumDto);
+  public async create(@Body() createAlbumDto: CreateAlbumDto): Promise<AlbumResponseDto> {
+    return await this.albumService.create(createAlbumDto);
   }
 
   @Get()
@@ -44,8 +45,8 @@ export class AlbumController {
     description: 'return all albums',
     type: [AlbumResponseDto],
   })
-  public findAll(): AlbumResponseDto[] {
-    return this.albumService.findAll();
+  public async findAll(): Promise<AlbumResponseDto[]> {
+    return await this.albumService.findAll();
   }
 
   @Get(':id')
@@ -68,8 +69,8 @@ export class AlbumController {
     status: HttpStatus.NOT_FOUND,
     description: 'album not found',
   })
-  public findOne(@Param('id') id: string): AlbumResponseDto {
-    return this.albumService.findOne(id);
+  public async findOne(@Param('id', validateUUID()) id: string): Promise<AlbumResponseDto> {
+    return await this.albumService.findOne(id);
   }
 
   @Put(':id')
@@ -92,8 +93,11 @@ export class AlbumController {
     status: HttpStatus.NOT_FOUND,
     description: 'album not found',
   })
-  public update(@Param('id') id: string, @Body() updateAlbumDto: UpdateAlbumDto): AlbumResponseDto {
-    return this.albumService.update(id, updateAlbumDto);
+  public async update(
+    @Param('id', validateUUID()) id: string,
+    @Body() updateAlbumDto: UpdateAlbumDto,
+  ): Promise<AlbumResponseDto> {
+    return await this.albumService.update(id, updateAlbumDto);
   }
 
   @Delete(':id')
@@ -116,7 +120,7 @@ export class AlbumController {
     status: HttpStatus.NOT_FOUND,
     description: 'album not found',
   })
-  public remove(@Param('id') id: string): void {
-    return this.albumService.remove(id);
+  public async remove(@Param('id', validateUUID()) id: string): Promise<void> {
+    return await this.albumService.remove(id);
   }
 }

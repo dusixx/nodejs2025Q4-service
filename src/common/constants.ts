@@ -1,5 +1,6 @@
-export const UUID_VER = 4;
-export const DEF_PORT = 4000;
+export const UUID_VER = '4';
+export const DEF_APP_PORT = 4000;
+export const DEF_DB_PORT = 5432;
 
 export const ErrorMessage = {
   InvalidUUID: 'invalid UUID',

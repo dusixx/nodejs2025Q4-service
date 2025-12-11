@@ -20,8 +20,6 @@ paths:
                 $ref: '#/components/schemas/UserResponseDto'
         '400':
           description: request body does not contain required fields
-        '409':
-          description: user with this name already exists
       tags: &ref_0
         - user
     get:

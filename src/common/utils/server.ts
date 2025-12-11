@@ -1,10 +1,15 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
-import * as net from 'net';
 import { exec } from 'node:child_process';
+import * as net from 'node:net';
 import { promisify } from 'node:util';
 import { sleep } from './misc';
 
 const execAsync = promisify(exec);
+
+export async function stopDockerCompose(): Promise<void> {
+  try {
+    await execAsync('docker-compose stop');
+  } catch {}
+}
 
 async function isPortAvailable(port: number | string): Promise<boolean> {
   return new Promise(resolve => {
@@ -24,6 +29,20 @@ const tryKillWin32Task = async (pid: string | number): Promise<void> => {
   } catch {
     void 0;
   }
+};
+
+export const tryKillTask = async (name: string, ext: string = 'exe'): Promise<void> => {
+  try {
+    if (process.platform === 'win32') {
+      await execAsync(`taskkill /f /im ${name}.${ext.toLowerCase()}`);
+    } else {
+      try {
+        await execAsync(`killall -9 ${name}`);
+      } catch {
+        await execAsync(`pkill -9 ${name}`);
+      }
+    }
+  } catch {}
 };
 
 const tryKillServer = async (port: number | string): Promise<void> => {

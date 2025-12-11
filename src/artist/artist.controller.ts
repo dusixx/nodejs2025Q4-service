@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ErrorMessage } from '../common/constants';
+import { validateUUID } from '../common/utils';
 import { ArtistService } from './artist.service';
 import { ArtistResponseDto } from './dto/artist-response.dto';
 import { CreateArtistDto } from './dto/create-artist.dto';
@@ -33,8 +34,8 @@ export class ArtistController {
     status: HttpStatus.BAD_REQUEST,
     description: ErrorMessage.InvalidRequestBody,
   })
-  public create(@Body() createArtistDto: CreateArtistDto): ArtistResponseDto {
-    return this.artistService.create(createArtistDto);
+  public async create(@Body() createArtistDto: CreateArtistDto): Promise<ArtistResponseDto> {
+    return await this.artistService.create(createArtistDto);
   }
 
   @Get()
@@ -44,8 +45,8 @@ export class ArtistController {
     description: 'return all artists',
     type: [ArtistResponseDto],
   })
-  public findAll(): ArtistResponseDto[] {
-    return this.artistService.findAll();
+  public async findAll(): Promise<ArtistResponseDto[]> {
+    return await this.artistService.findAll();
   }
 
   @Get(':id')
@@ -68,8 +69,8 @@ export class ArtistController {
     status: HttpStatus.NOT_FOUND,
     description: 'artist not found',
   })
-  public findOne(@Param('id') id: string): ArtistResponseDto {
-    return this.artistService.findOne(id);
+  public async findOne(@Param('id', validateUUID()) id: string): Promise<ArtistResponseDto> {
+    return await this.artistService.findOne(id);
   }
 
   @Put(':id')
@@ -92,11 +93,11 @@ export class ArtistController {
     status: HttpStatus.NOT_FOUND,
     description: 'artist not found',
   })
-  public update(
-    @Param('id') id: string,
+  public async update(
+    @Param('id', validateUUID()) id: string,
     @Body() updateArtistDto: UpdateArtistDto,
-  ): ArtistResponseDto {
-    return this.artistService.update(id, updateArtistDto);
+  ): Promise<ArtistResponseDto> {
+    return await this.artistService.update(id, updateArtistDto);
   }
 
   @Delete(':id')
@@ -119,7 +120,7 @@ export class ArtistController {
     status: HttpStatus.NOT_FOUND,
     description: 'artist not found',
   })
-  public remove(@Param('id') id: string): void {
-    this.artistService.remove(id);
+  public async remove(@Param('id', validateUUID()) id: string): Promise<void> {
+    await this.artistService.remove(id);
   }
 }

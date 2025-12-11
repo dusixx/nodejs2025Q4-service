@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ErrorMessage } from '../common/constants';
+import { validateUUID } from '../common/utils';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { TrackResponseDto } from './dto/track-response.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
@@ -33,8 +34,8 @@ export class TrackController {
     status: HttpStatus.BAD_REQUEST,
     description: ErrorMessage.InvalidRequestBody,
   })
-  create(@Body() createTrackDto: CreateTrackDto): TrackResponseDto {
-    return this.trackService.create(createTrackDto);
+  async create(@Body() createTrackDto: CreateTrackDto): Promise<TrackResponseDto> {
+    return await this.trackService.create(createTrackDto);
   }
 
   @Get()
@@ -44,8 +45,8 @@ export class TrackController {
     description: 'return all tracks',
     type: [TrackResponseDto],
   })
-  findAll(): TrackResponseDto[] {
-    return this.trackService.findAll();
+  async findAll(): Promise<TrackResponseDto[]> {
+    return await this.trackService.findAll();
   }
 
   @Get(':id')
@@ -68,8 +69,8 @@ export class TrackController {
     status: HttpStatus.NOT_FOUND,
     description: 'track not found',
   })
-  findOne(@Param('id') id: string): TrackResponseDto {
-    return this.trackService.findOne(id);
+  async findOne(@Param('id', validateUUID()) id: string): Promise<TrackResponseDto> {
+    return await this.trackService.findOne(id);
   }
 
   @Put(':id')
@@ -92,8 +93,11 @@ export class TrackController {
     status: HttpStatus.NOT_FOUND,
     description: 'track not found',
   })
-  update(@Param('id') id: string, @Body() updateTrackDto: UpdateTrackDto): TrackResponseDto {
-    return this.trackService.update(id, updateTrackDto);
+  async update(
+    @Param('id', validateUUID()) id: string,
+    @Body() updateTrackDto: UpdateTrackDto,
+  ): Promise<TrackResponseDto> {
+    return await this.trackService.update(id, updateTrackDto);
   }
 
   @Delete(':id')
@@ -116,7 +120,7 @@ export class TrackController {
     status: HttpStatus.NOT_FOUND,
     description: 'track not found',
   })
-  remove(@Param('id') id: string): void {
-    this.trackService.remove(id);
+  async remove(@Param('id', validateUUID()) id: string): Promise<void> {
+    await this.trackService.remove(id);
   }
 }

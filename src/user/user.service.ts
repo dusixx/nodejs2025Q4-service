@@ -1,80 +1,71 @@
-import {
-  BadRequestException,
-  ConflictException,
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { validate } from 'uuid';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 import { ErrorMessage } from '../common/constants';
-import { db } from '../common/db';
-import { omit } from '../common/utils/misc';
+import { PrismaService } from '../common/services/prisma.service';
+import { isPrismaNotFoundError } from '../common/utils/misc';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UserResponseDto } from './dto/user-response.dto';
-import { User } from './types';
+import { UserEntity } from './entities/user.entity';
+import { UserDbEntity } from './types';
 
 @Injectable()
 export class UserService {
-  private users = db.users;
+  constructor(private readonly prisma: PrismaService) {}
 
-  public create({ login, password }: CreateUserDto): UserResponseDto {
-    if (this.isUserExists(login)) {
-      throw new ConflictException('user with this name already exists');
-    }
-    const now = Date.now();
-    const newUser: User = {
-      id: crypto.randomUUID(),
-      login,
-      password,
-      version: 1,
-      createdAt: now,
-      updatedAt: now,
-    };
-    this.users.set(newUser.id, newUser);
-    return omit(newUser, 'password');
+  public async create(createDto: CreateUserDto): Promise<UserResponseDto> {
+    const newUser = await this.prisma.user.create({ data: createDto });
+    return plainToInstance(UserEntity, newUser);
   }
 
-  public findAll(): UserResponseDto[] {
-    return [...this.users.values()].map(user => omit(user, 'password'));
+  public async findAll(): Promise<UserResponseDto[]> {
+    const users = await this.prisma.user.findMany();
+    return users.map(u => plainToInstance(UserEntity, u));
   }
 
-  public findOne(id: string): UserResponseDto {
-    return omit(this.findById(id), 'password');
+  public async findOne(id: string): Promise<UserResponseDto> {
+    return plainToInstance(UserEntity, await this.findById(id));
   }
 
-  public updatePassword(
+  public async updatePassword(
     id: string,
     { newPassword, oldPassword }: UpdatePasswordDto,
-  ): UserResponseDto {
-    const user = this.findById(id);
+  ): Promise<UserResponseDto> {
+    const user = await this.findById(id);
+
     if (user.password !== oldPassword) {
       throw new ForbiddenException('old password is invalid');
     }
-    const updated: User = {
-      ...user,
-      password: newPassword,
-      updatedAt: Date.now(),
-      version: user.version + 1,
-    };
-    this.users.set(id, updated);
-    return omit(updated, 'password');
-  }
-
-  public remove(id: string): void {
-    const user = this.findById(id);
-    this.users.delete(user.id);
-  }
-
-  private isUserExists(login: string): User {
-    return [...this.users.values()].find(user => login === user.login);
-  }
-
-  private findById(id: string): User {
-    if (!validate(id)) {
-      throw new BadRequestException(ErrorMessage.InvalidUUID);
+    try {
+      const updated = await this.prisma.user.update({
+        where: { id },
+        data: {
+          password: newPassword,
+          version: user.version + 1,
+        },
+      });
+      return plainToInstance(UserEntity, updated);
+    } catch (err) {
+      if (isPrismaNotFoundError(err)) {
+        throw new NotFoundException(ErrorMessage.NotFound`user`);
+      }
+      throw err;
     }
-    const user = this.users.get(id);
+  }
+
+  public async remove(id: string): Promise<void> {
+    try {
+      await this.prisma.user.delete({ where: { id } });
+    } catch (err) {
+      if (isPrismaNotFoundError(err)) {
+        throw new NotFoundException(ErrorMessage.NotFound`user`);
+      }
+      throw err;
+    }
+  }
+
+  private async findById(id: string): Promise<UserDbEntity> {
+    const user = await this.prisma.user.findUnique({ where: { id } });
     if (!user) {
       throw new NotFoundException(ErrorMessage.NotFound`user`);
     }

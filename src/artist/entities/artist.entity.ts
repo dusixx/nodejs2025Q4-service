@@ -4,4 +4,5 @@ export class ArtistEntity implements Artist {
   id: string;
   name: string;
   grammy: boolean;
+  isFavorite: boolean;
 }

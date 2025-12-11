@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-extraneous-class */
 import { Module } from '@nestjs/common';
-import { FavsService } from './favs.service';
 import { FavsController } from './favs.controller';
+import { FavsService } from './favs.service';
 
 @Module({
   controllers: [FavsController],

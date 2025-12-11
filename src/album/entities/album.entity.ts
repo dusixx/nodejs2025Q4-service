@@ -5,4 +5,5 @@ export class AlbumEntity implements Album {
   name: string;
   year: number;
   artistId: string;
+  isFavorite: boolean;
 }

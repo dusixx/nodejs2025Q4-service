@@ -6,4 +6,5 @@ export class TrackEntity implements Track {
   artistId: string;
   albumId: string;
   duration: number;
+  isFavorite: boolean;
 }

@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 import { UUID_VER } from '../../common/constants';
-import { Artist } from '../types';
+import { ArtistEntity } from '../entities/artist.entity.js';
 
-export class ArtistResponseDto implements Artist {
+export class ArtistResponseDto implements ArtistEntity {
   @ApiProperty({ description: 'uuid v4' })
   @IsUUID(UUID_VER)
   id: string;
@@ -17,4 +17,7 @@ export class ArtistResponseDto implements Artist {
   @IsBoolean()
   @IsNotEmpty()
   grammy: boolean;
+
+  @IsBoolean()
+  isFavorite: boolean;
 }
