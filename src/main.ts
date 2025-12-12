@@ -21,6 +21,7 @@ async function bootstrap(): Promise<void> {
     .setTitle(TITLE)
     .setDescription([...TITLE].reverse().join(''))
     .setVersion(VERSION)
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

@@ -5,8 +5,8 @@ volumes:
 
 services:
   app:
+    image: dusixx/home-lib-app-auth:latest
     container_name: home-lib-srv-app
-    image: dusixx/home-lib-srv-app:latest
     build:
       context: .
       dockerfile: ./docker/Dockerfile
@@ -37,7 +37,7 @@ services:
             - node_modules
 
   database:
-    image: dusixx/home-lib-srv-db:latest
+    image: dusixx/home-lib-db-auth:latest
     container_name: home-lib-srv-db
     build:
       context: ./docker
