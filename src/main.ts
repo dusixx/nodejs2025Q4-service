@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { AppService } from './app.service';
 import { DEF_APP_PORT } from './common/constants';
+import { GlobalExceptionFilter } from './common/filters/global-exceptions.filter';
 import { CustomLoggingService } from './logging/logging.service';
 import { startNestServer, updateYAMLDoc } from './main.utils';
 
@@ -21,6 +22,15 @@ async function bootstrap(): Promise<void> {
   // logger
   const loggingService = app.get(CustomLoggingService);
   app.useLogger(loggingService);
+
+  // error handling
+  app.useGlobalFilters(new GlobalExceptionFilter());
+  process.on('unhandledRejection', err => {
+    loggingService.error(`Unhandled Rejection: ${JSON.stringify(err)}`);
+  });
+  process.on('uncaughtException', err => {
+    loggingService.error(`Uncaught Exception: ${JSON.stringify(err)}`);
+  });
 
   app.enableCors();
 

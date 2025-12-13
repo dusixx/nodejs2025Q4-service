@@ -16,13 +16,13 @@ export class CustomLoggingService implements LoggerService {
   private logger: winston.Logger;
 
   constructor() {
-    const maxSize = envVar.LOG_MAX_SIZE_KB * 1024;
+    const maxSizeBytes = envVar.LOG_MAX_SIZE_KB * 1024;
     const appLogLevel = String(WinstonLogLevel[envVar.LOG_LEVEL] ?? 'verbose');
 
     const appTransport = new DailyRotateFile({
       filename: 'logs/app-%DATE%.log',
       datePattern: 'YYYY-MM-DD',
-      maxSize,
+      maxSize: maxSizeBytes,
       maxFiles: '30d',
       format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
       level: appLogLevel,
@@ -32,7 +32,7 @@ export class CustomLoggingService implements LoggerService {
     const errorTransport = new DailyRotateFile({
       filename: 'logs/error-%DATE%.log',
       datePattern: 'YYYY-MM-DD',
-      maxSize,
+      maxSize: maxSizeBytes,
       maxFiles: '30d',
       format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
       level: 'error',
