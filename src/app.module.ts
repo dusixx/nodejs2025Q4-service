@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { AlbumModule } from './album/album.module';
@@ -8,8 +8,9 @@ import { ArtistModule } from './artist/artist.module';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './common/services/prisma.module.js';
-import config from './config/config';
 import { FavsModule } from './favs/favs.module';
+import { LoggingMiddleware } from './logging/logging.middleware';
+import { LoggingModule } from './logging/logging.module';
 import { TrackModule } from './track/track.module';
 import { UserModule } from './user/user.module';
 
@@ -24,9 +25,9 @@ import { UserModule } from './user/user.module';
   ],
   imports: [
     ConfigModule.forRoot({
-      load: [config],
       isGlobal: true,
     }),
+    LoggingModule,
     AuthModule,
     UserModule,
     ArtistModule,
@@ -36,4 +37,8 @@ import { UserModule } from './user/user.module';
     PrismaModule,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  public configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(LoggingMiddleware).forRoutes('*');
+  }
+}

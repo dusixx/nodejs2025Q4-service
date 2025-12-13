@@ -22,7 +22,7 @@ cp .env.example .env
 
 # 🚀 Running
 
-❗ Stop all applications running on the same ports as our `app` (`4000`) and `db` (default `5432`).
+❗ Stop all applications running on the same ports as our `app` (default `4000`) and `db` (default `5432`).
 
 ```sh
 # to avoid linting errors

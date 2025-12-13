@@ -4,6 +4,8 @@ import {
   DEF_ACCESS_TOKEN_EXPIRE_TIME,
   DEF_APP_PORT,
   DEF_CRYPT_SALT,
+  DEF_LOG_LEVEL,
+  DEF_LOG_MAX_SIZE_KB,
   DEF_REFRESH_TOKEN_EXPIRE_TIME,
 } from '../common/constants';
 
@@ -21,4 +23,6 @@ export const envVar = {
     DEF_REFRESH_TOKEN_EXPIRE_TIME) as ms.StringValue,
 
   CRYPT_SALT: Number(process.env.CRYPT_SALT) || DEF_CRYPT_SALT,
+  LOG_LEVEL: Number(process.env.LOG_LEVEL) || DEF_LOG_LEVEL,
+  LOG_MAX_SIZE_KB: Number(process.env.LOG_MAX_SIZE_KB) || DEF_LOG_MAX_SIZE_KB,
 } as const;
