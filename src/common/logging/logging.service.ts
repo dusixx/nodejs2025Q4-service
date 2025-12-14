@@ -3,6 +3,8 @@ import * as winston from 'winston';
 import * as DailyRotateFile from 'winston-daily-rotate-file';
 import { envVar } from '../config/env';
 
+const BYTES_PER_KB = 1024;
+
 export const WinstonLogLevel = {
   error: 0,
   warn: 1,
@@ -16,7 +18,7 @@ export class CustomLoggingService implements LoggerService {
   private logger: winston.Logger;
 
   constructor() {
-    const maxSizeBytes = envVar.LOG_MAX_SIZE_KB * 1024;
+    const maxSizeBytes = envVar.LOG_MAX_SIZE_KB * BYTES_PER_KB;
     const appLogLevel = String(WinstonLogLevel[envVar.LOG_LEVEL] ?? 'verbose');
 
     const appTransport = new DailyRotateFile({
@@ -98,4 +100,4 @@ export class CustomLoggingService implements LoggerService {
   }
 }
 
-export const customLoggingSrvice = new CustomLoggingService();
+export const customLoggingService = new CustomLoggingService();
