@@ -37,7 +37,9 @@
     "docker:volumes": "docker volume ls",
     "start:both": "npm run docker:build && docker-compose watch",
     "start:app": "docker-compose down -v && docker-compose up -d database && npm run prisma:init:dev && nest start --watch",
-    "kill:all": "ts-node scripts/kill-all.ts"
+    "kill:all": "ts-node scripts/kill-all.ts",
+    "logs:app": "docker run --rm -it -v nodejs2025q4-service_app-logs:/logs alpine sh -c \"cd /logs && sh\"",
+    "logs:db": "docker run --rm -it -v nodejs2025q4-service_postgres-data:/db_logs alpine sh -c \"cd /db_logs/log && sh\""
   },
   "dependencies": {
     "@nestjs/common": "^10.4.16",

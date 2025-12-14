@@ -3,7 +3,7 @@
 ```sh
 git clone git@github.com:dusixx/nodejs2025Q4-service.git
 cd nodejs2025Q4-service
-git checkout part2
+git checkout part3
 npm ci
 ```
 
@@ -25,66 +25,75 @@ cp .env.example .env
 ❗ Stop all applications running on the same ports as our `app` (default `4000`) and `db` (default `5432`).
 
 ```sh
-# to avoid linting errors
-npx prisma generate
-
 # run the linter
 npm run lint
 
 # run both images
 docker-compose up -d
 
-# 🧪 run the tests
-npm test
-
-# switch to watch mode
-docker-compose watch --no-up
+# 🧪 run the tests (very first one)
+npm run test:auth
 ```
 
-**🔥 HOT RELOAD:** in `watch mode` the app will `restart` when changes are made in the `src` folder and `rebuild` when changing the `package.json`
+# 📄 Logging
 
-❗ If you made any changes to the `src` folder in `watch mode`, wait a few seconds for the app to `restart` before entering a command like `npm test`
+- `App logs` are available on a volume named `nodejs2025q4-service_app-logs`
+- Log files are named according to the template `app-YYYY-MM-DD.log`.
+- The maximum file size is set by the `LOG_MAX_SIZE_KB` variable (`50` by default).
+- The logging level is set by the `LOG_LEVEL` variable (`4` -> `verbose` by default).
+- If a file size exceeds the maximum, a new file is created named `app-YYYY-MM-DD.log.1`, and so on.
+- A separate file named `error-YYYY-MM-DD.log` is created for `critical errors`. File `rotation logic` is the same as for app logs.
+- `DB logs` are available on a volume named `nodejs2025q4-service_postgres-data` (`log` folder)
 
-The console will display
+<details open>
+<summary><b>App logging testing</b></summary>
 
 ```sh
-Syncing service "app" after 1 changes were detected
-service(s) ["app"] restarted
+# run it two more times to fill out the log files
+# along with the "very first one" - there will be 3
+npm run test:auth
+
+# enter interactive volume inspection mode
+npm run logs:app
+
+# list all log files
+ls -la
+
+# display the contents of the file
+# for example, `cat app-2025-12-14.log.1`
+cat <app-YYYY-MM-DD.log>
+
+# exit interactive mode
+exit
 ```
 
-# 🔵 Docker Hub
+</details>
 
-Both images are uploaded to Docker Hub
-
-[App image](https://hub.docker.com/r/dusixx/home-lib-srv-app/tags) | [DB image](https://hub.docker.com/r/dusixx/home-lib-srv-db/tags)
-
-The size of each image `does not exceed` 500 MiB. To check this, use
+<details>
+<summary><b>DB logging testing</b></summary>
 
 ```sh
-npm run docker:images
+# enter interactive volume inspection mode
+npm run logs:db
+
+# list all log files
+ls -la
+
+# display the contents of the file
+# for example, `cat postgresql-2025-12-14_062721.log`
+cat <postgresql-YYY-MM-DD_NUM.log>
+
+# exit interactive mode
+exit
 ```
 
-# 🐞 Vulnerabilities scanning
-
-To scan both images
-
-```sh
-docker-compose build
-
-npm run docker:scan
-
-# ❗ BE SURE TO RUN: to return everything to normal
-npm run docker:pull
-```
+</details>
 
 # ℹ️ Useful commands
 
 ```sh
 # list running containers
 npm run docker:ps
-
-# network settings
-npm run docker:network
 
 # list volumes
 npm run docker:volumes
