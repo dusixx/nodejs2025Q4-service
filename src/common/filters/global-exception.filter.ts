@@ -36,10 +36,6 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         JSON.stringify(errorDetails),
         'GlobalExceptionFilter',
       );
-    } else if (status >= 400) {
-      customLoggingSrvice.warn(message);
-    } else {
-      customLoggingSrvice.log(message);
     }
 
     response.status(status).json({
