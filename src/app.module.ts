@@ -7,10 +7,10 @@ import { AppService } from './app.service';
 import { ArtistModule } from './artist/artist.module';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthModule } from './auth/auth.module';
-import { PrismaModule } from './common/services/prisma.module.js';
+import { LoggingMiddleware } from './common/logging/logging.middleware';
+import { LoggingModule } from './common/logging/logging.module';
+import { PrismaModule } from './common/prisma-service/prisma.module.js';
 import { FavsModule } from './favs/favs.module';
-import { LoggingMiddleware } from './logging/logging.middleware';
-import { LoggingModule } from './logging/logging.module';
 import { TrackModule } from './track/track.module';
 import { UserModule } from './user/user.module';
 

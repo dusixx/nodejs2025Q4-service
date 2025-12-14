@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { ErrorMessage } from '../common/constants';
-import { PrismaService } from '../common/services/prisma.service';
+import { PrismaService } from '../common/prisma-service/prisma.service';
 import { isPrismaNotFoundError } from '../common/utils/misc';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';

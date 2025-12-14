@@ -1,6 +1,6 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { customLoggingSrvice } from '../../logging/logging.service';
+import { customLoggingSrvice } from '../logging/logging.service';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -29,19 +29,17 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       query,
       params,
     };
-
     if (status >= 500) {
       customLoggingSrvice.error(
-        `Exception: ${method} ${url} -- ${status} ${message}`,
+        `Exception: (${status}) ${method} ${url} ${message}`,
         JSON.stringify(errorDetails),
         'GlobalExceptionFilter',
       );
     }
-
     response.status(status).json({
       statusCode: status,
       timestamp,
-      path: request.url,
+      path: url,
       message,
     });
   }

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ErrorMessage } from '../common/constants';
-import { PrismaService } from '../common/services/prisma.service';
+import { PrismaService } from '../common/prisma-service/prisma.service';
 import { isPrismaNotFoundError } from '../common/utils';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { TrackResponseDto } from './dto/track-response.dto';

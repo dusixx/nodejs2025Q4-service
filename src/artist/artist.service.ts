@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ErrorMessage } from '../common/constants';
-import { PrismaService } from '../common/services/prisma.service';
+import { PrismaService } from '../common/prisma-service/prisma.service';
 import { isPrismaNotFoundError } from '../common/utils';
 import { ArtistResponseDto } from './dto/artist-response.dto';
 import { CreateArtistDto } from './dto/create-artist.dto';

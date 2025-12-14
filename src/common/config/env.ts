@@ -7,7 +7,7 @@ import {
   DEF_LOG_LEVEL,
   DEF_LOG_MAX_SIZE_KB,
   DEF_REFRESH_TOKEN_EXPIRE_TIME,
-} from '../common/constants';
+} from '../constants';
 
 config({ quiet: true });
 
