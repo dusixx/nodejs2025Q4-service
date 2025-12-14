@@ -1,6 +1,5 @@
 volumes:
   postgres-data:
-  postgres-logs:
   app-logs:
 
 services:
@@ -54,7 +53,6 @@ services:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - postgres-logs:/var/lib/postgresql/data/log
 
 networks:
   home-lib-network:
