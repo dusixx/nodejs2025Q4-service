@@ -4,8 +4,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { AppService } from './app.service';
 import { envVar } from './common/config/env';
+import { CustomLogger } from './common/custom-logger/custom-logger.service';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
-import { CustomLogger } from './common/logging/custom-logger.service';
 import { startNestServer, updateYAMLDoc } from './main.utils';
 
 const VERSION = '1.0.0';
