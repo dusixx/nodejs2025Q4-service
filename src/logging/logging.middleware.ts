@@ -12,10 +12,11 @@ export class LoggingMiddleware implements NestMiddleware {
     res.on('finish', () => {
       const { statusCode } = res;
 
-      const queryStr = `Query: ${JSON.stringify(query)}`;
-      const bodyStr = `Body: ${JSON.stringify(req.body)}`;
-      const request = `Request: ${method} -- ${url} -- ${queryStr} -- ${bodyStr}`;
-      const message = `${request} -- Response: ${method} ${url} -- ${statusCode}`;
+      const queryStr = `<Query: ${JSON.stringify(query)}>`;
+      const bodyStr = `<Body: ${JSON.stringify(req.body)}>`;
+      const reqStr = `[Request]: ${method} ${url} ${queryStr} ${bodyStr}`;
+      const respStr = `[Response]: (${statusCode}) ${method} ${url}`;
+      const message = `${reqStr} ${respStr}`;
 
       if (statusCode >= 500) {
         this.loggingService.error(message);

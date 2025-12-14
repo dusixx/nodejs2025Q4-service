@@ -25,4 +25,5 @@ export const envVar = {
   CRYPT_SALT: Number(process.env.CRYPT_SALT) || DEF_CRYPT_SALT,
   LOG_LEVEL: Number(process.env.LOG_LEVEL) || DEF_LOG_LEVEL,
   LOG_MAX_SIZE_KB: Number(process.env.LOG_MAX_SIZE_KB) || DEF_LOG_MAX_SIZE_KB,
+  POSTGRES_URL: process.env.POSTGRES_URL,
 } as const;

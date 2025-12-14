@@ -31,7 +31,7 @@ npm run lint
 # run both images
 docker-compose up -d
 
-# 🧪 run the tests (very first one)
+# 🧪 run the tests
 npm run test:auth
 ```
 
@@ -39,31 +39,32 @@ npm run test:auth
 
 - `App logs` are available on a volume named `nodejs2025q4-service_app-logs`
 - Log files are named according to the template `app-YYYY-MM-DD.log`.
-- The maximum file size is set by the `LOG_MAX_SIZE_KB` variable (`50` by default).
-- The logging level is set by the `LOG_LEVEL` variable (`4` -> `verbose` by default).
-- If a file size exceeds the maximum, a new file is created named `app-YYYY-MM-DD.log.1`, and so on.
-- A separate file named `error-YYYY-MM-DD.log` is created for `critical errors`. File `rotation logic` is the same as for app logs.
+- The logging level is set by the `LOG_LEVEL` variable (`verbose(4)` by default).
+- A separate file(s) named `error-YYYY-MM-DD.log` is created for `errors`.
 - `DB logs` are available on a volume named `nodejs2025q4-service_postgres-data` (`log` folder)
+
+## 🔄 Log rotation
+
+- The maximum file size is set by the `LOG_MAX_SIZE_KB` variable (`50` by default).
+- If a file size exceeds the maximum, a new file is created named `app-YYYY-MM-DD.log.1`, and so on.
 
 <details open>
 <summary><b>App logging testing</b></summary>
 
 ```sh
-# run it two more times to fill out the log files
-# along with the "very first one" - there will be 3
-npm run test:auth
+# fill out the log files
+npm run fill:logs
 
-# enter interactive volume inspection mode
+# enter volume inspection mode
 npm run logs:app
 
-# list all log files
-ls -la
+# list log files
+ls -lh
 
-# display the contents of the file
-# for example, `cat app-2025-12-14.log.1`
+# display the contents of the file (eg., `cat app-2025-12-14.log.1`)
 cat <app-YYYY-MM-DD.log>
 
-# exit interactive mode
+# exit inspection mode
 exit
 ```
 
@@ -73,17 +74,16 @@ exit
 <summary><b>DB logging testing</b></summary>
 
 ```sh
-# enter interactive volume inspection mode
+# enter volume inspection mode
 npm run logs:db
 
-# list all log files
-ls -la
+# list log files
+ls -lh
 
-# display the contents of the file
-# for example, `cat postgresql-2025-12-14_062721.log`
-cat <postgresql-YYY-MM-DD_NUM.log>
+# display the contents of the file (eg., `cat postgresql-2025-12-14_062721.log`)
+cat <postgresql-YYY-MM-DD_HHMMSS.log>
 
-# exit interactive mode
+# exit inspection mode
 exit
 ```
 
@@ -97,6 +97,30 @@ npm run docker:ps
 
 # list volumes
 npm run docker:volumes
+
+# list images
+npm run docker:images
+```
+
+# 🆘 If something went wrong
+
+If running tests produces errors like `TypeError: Cannot read properties of undefined (reading 'prototype')` use
+
+```sh
+npm run fix:deps
+```
+
+To kill the `node` and `docker-compose`
+
+```sh
+npm run kill:all
+```
+
+To create a `"clean"` build
+
+```sh
+npm run docker:cleanup
+npm run docker:build
 ```
 
 # 🧹 Cleanup
