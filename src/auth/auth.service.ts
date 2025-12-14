@@ -59,7 +59,7 @@ export class AuthService {
   }
 
   public async refresh({ refreshToken }: RefreshTokenDto): Promise<TokensResponseDto> {
-    if (!refreshToken.trim()) {
+    if (!refreshToken?.trim()) {
       throw new UnauthorizedException(ERR_INVALID_REFRESH_TOKEN);
     }
     try {
