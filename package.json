@@ -31,7 +31,6 @@
     "docker:network": "docker network inspect home-lib-network",
     "start:both": "npm run docker:build && docker-compose watch",
     "start:app": "docker-compose down -v && docker-compose up -d database && npm run prisma:init:dev && nest start --watch",
-    "": "----------------------------------------------",
     "fix:deps": "rm -rf node_modules package-lock.json && npm cache clean --force && npm i",
     "docker:volumes": "docker volume ls",
     "docker:images": "docker images",
