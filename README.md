@@ -28,11 +28,14 @@ cp .env.example .env
 # run the linter
 npm run lint
 
+# stop other containers and remove their resources
+npm run docker:cleanup
+
 # run both images
 docker-compose up -d
 
-# 🧪 run the tests
-npm run test:auth
+# 🧪 run the tests (both auth & refresh)
+npm run test:all
 ```
 
 # 📄 Logging
@@ -121,7 +124,6 @@ npm run kill:all
 To create a `"clean"` build
 
 ```sh
-npm run docker:cleanup
 npm run docker:build
 ```
 
