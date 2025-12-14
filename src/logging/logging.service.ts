@@ -97,3 +97,5 @@ export class CustomLoggingService implements LoggerService {
     this.logger.verbose(message, { context });
   }
 }
+
+export const customLoggingSrvice = new CustomLoggingService();

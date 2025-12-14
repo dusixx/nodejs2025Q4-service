@@ -1,11 +1,10 @@
 import { ValidationPipe } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { AppService } from './app.service';
-import { DEF_APP_PORT } from './common/constants';
-import { GlobalExceptionFilter } from './common/filters/global-exceptions.filter';
+import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
+import { envVar } from './config/env';
 import { CustomLoggingService } from './logging/logging.service';
 import { startNestServer, updateYAMLDoc } from './main.utils';
 
@@ -16,21 +15,7 @@ async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
   });
-  const configService = app.get(ConfigService);
-  const port = configService.get<string>('PORT') || DEF_APP_PORT;
-
-  // logger
-  const loggingService = app.get(CustomLoggingService);
-  app.useLogger(loggingService);
-
-  // error handling
-  app.useGlobalFilters(new GlobalExceptionFilter());
-  process.on('unhandledRejection', err => {
-    loggingService.error(`Unhandled Rejection: ${JSON.stringify(err)}`);
-  });
-  process.on('uncaughtException', err => {
-    loggingService.error(`Uncaught Exception: ${JSON.stringify(err)}`);
-  });
+  const port = envVar.PORT;
 
   app.enableCors();
 
@@ -55,6 +40,19 @@ async function bootstrap(): Promise<void> {
       forbidNonWhitelisted: true,
     }),
   );
+  // logger
+  const loggingService = app.get(CustomLoggingService);
+  app.useLogger(loggingService);
+
+  // error handling
+  app.useGlobalFilters(new GlobalExceptionFilter());
+  process.on('unhandledRejection', err => {
+    console.log(err);
+    loggingService.error(`Unhandled Rejection: ${JSON.stringify(err)}`);
+  });
+  process.on('uncaughtException', err => {
+    loggingService.error(`Uncaught Exception: ${JSON.stringify(err)}`);
+  });
   await startNestServer(app, port);
   updateYAMLDoc(document);
 }
