@@ -6,6 +6,8 @@ export const DEF_ACCESS_TOKEN_EXPIRE_TIME = '1h';
 export const DEF_REFRESH_TOKEN_EXPIRE_TIME = '24h';
 export const DEF_LOG_LEVEL = 4;
 export const DEF_LOG_MAX_SIZE_KB = 50;
+export const DEF_LOG_MAX_FILES = 100;
+export const DEF_LOG_DIR = 'logs';
 
 export const ErrorMessage = {
   InvalidUUID: 'invalid UUID',

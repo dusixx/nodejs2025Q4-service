@@ -4,7 +4,9 @@ import {
   DEF_ACCESS_TOKEN_EXPIRE_TIME,
   DEF_APP_PORT,
   DEF_CRYPT_SALT,
+  DEF_LOG_DIR,
   DEF_LOG_LEVEL,
+  DEF_LOG_MAX_FILES,
   DEF_LOG_MAX_SIZE_KB,
   DEF_REFRESH_TOKEN_EXPIRE_TIME,
 } from '../constants';
@@ -22,8 +24,11 @@ export const envVar = {
   TOKEN_REFRESH_EXPIRE_TIME: (process.env.TOKEN_REFRESH_EXPIRE_TIME ||
     DEF_REFRESH_TOKEN_EXPIRE_TIME) as ms.StringValue,
 
+  // TODO: isNaN -> DEF (0 -> 0) | in range
   CRYPT_SALT: Number(process.env.CRYPT_SALT) || DEF_CRYPT_SALT,
   LOG_LEVEL: Number(process.env.LOG_LEVEL) || DEF_LOG_LEVEL,
   LOG_MAX_SIZE_KB: Number(process.env.LOG_MAX_SIZE_KB) || DEF_LOG_MAX_SIZE_KB,
   POSTGRES_URL: process.env.POSTGRES_URL,
+  LOG_MAX_FILES: Number(process.env.LOG_MAX_FILES) || DEF_LOG_MAX_FILES,
+  LOG_DIR: process.env.LOG_DIR || DEF_LOG_DIR,
 } as const;
