@@ -38,15 +38,17 @@ npm run test:auth
 # 📄 Logging
 
 - `App logs` are available on a volume named `nodejs2025q4-service_app-logs`
-- Log files are named according to the template `app-YYYY-MM-DD.log`.
+- Log files are named according to the template `app-YYYY-MM-DD-TIMESTAMP.log`.
 - The logging level is set by the `LOG_LEVEL` variable (`verbose(4)` by default).
-- A separate file(s) named `error-YYYY-MM-DD.log` is created for `errors`.
+- A separate file(s) named `error-YYYY-MM-DD-TIMESTAMP.log` is created for `errors`.
 - `DB logs` are available on a volume named `nodejs2025q4-service_postgres-data` (`log` folder)
 
 ## 🔄 Log rotation
 
 - The maximum file size is set by the `LOG_MAX_SIZE_KB` variable (`50` by default).
-- If a file size exceeds the maximum, a new file is created named `app-YYYY-MM-DD.log.1`, and so on.
+- If a file size exceeds the maximum, a new file is created and so on.
+- The maximum number of files is set by the variable `LOG_MAX_FILES` (default is `100`).
+- If the number of files exceeds the maximum, the oldest ones are deleted.
 
 <details open>
 <summary><b>App logging testing</b></summary>
@@ -61,8 +63,8 @@ npm run logs:app
 # list log files
 ls -lh
 
-# display the contents of the file (eg., `cat app-2025-12-14.log.1`)
-cat <app-YYYY-MM-DD.log>
+# display the contents of the file
+cat <app-YYYY-MM-DD-TIMESTAMP.log>
 
 # exit inspection mode
 exit
@@ -80,7 +82,7 @@ npm run logs:db
 # list log files
 ls -lh
 
-# display the contents of the file (eg., `cat postgresql-2025-12-14_062721.log`)
+# display the contents of the file
 cat <postgresql-YYY-MM-DD_HHMMSS.log>
 
 # exit inspection mode

@@ -5,7 +5,7 @@ import { AppModule } from './app.module';
 import { AppService } from './app.service';
 import { envVar } from './common/config/env';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
-import { CustomLoggingService } from './common/logging/logging.service';
+import { CustomLogger } from './common/logging/custom-logger.service';
 import { startNestServer, updateYAMLDoc } from './main.utils';
 
 const VERSION = '1.0.0';
@@ -41,17 +41,16 @@ async function bootstrap(): Promise<void> {
     }),
   );
   // logger
-  const loggingService = app.get(CustomLoggingService);
-  app.useLogger(loggingService);
+  const logger = app.get(CustomLogger);
+  app.useLogger(logger);
 
   // error handling
   app.useGlobalFilters(new GlobalExceptionFilter());
   process.on('unhandledRejection', err => {
-    console.log(err);
-    loggingService.error(`Unhandled Rejection: ${JSON.stringify(err)}`);
+    logger.error(`Unhandled Rejection: ${JSON.stringify(err)}`);
   });
   process.on('uncaughtException', err => {
-    loggingService.error(`Uncaught Exception: ${JSON.stringify(err)}`);
+    logger.error(`Uncaught Exception: ${JSON.stringify(err)}`);
   });
   await startNestServer(app, port);
   updateYAMLDoc(document);
