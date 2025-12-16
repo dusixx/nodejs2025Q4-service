@@ -39,11 +39,9 @@ FROM node:24-alpine
 
 WORKDIR /app
 
-USER node 
-
 COPY --from=cleanup /app/node_modules ./node_modules
 COPY --from=builder /app/prisma.config.ts ./
-COPY --from=builder /app/src/prisma ./src/prisma
+COPY --from=builder /app/src ./src
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/doc ./doc
 

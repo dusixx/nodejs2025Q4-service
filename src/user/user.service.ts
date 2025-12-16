@@ -1,12 +1,12 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { ErrorMessage } from '../common/constants';
-import { PrismaService } from '../common/services/prisma.service';
+import { PrismaService } from '../common/prisma-service/prisma.service';
 import { isPrismaNotFoundError } from '../common/utils/misc';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UserResponseDto } from './dto/user-response.dto';
-import { UserEntity } from './entities/user.entity';
+import { UserEntity, UserEntityWithPassword } from './entities/user.entity';
 import { UserDbEntity } from './types';
 
 @Injectable()
@@ -25,6 +25,13 @@ export class UserService {
 
   public async findOne(id: string): Promise<UserResponseDto> {
     return plainToInstance(UserEntity, await this.findById(id));
+  }
+
+  public async findOneByLogin(login: string): Promise<UserEntityWithPassword> {
+    const user = await this.prisma.user.findUnique({
+      where: { login },
+    });
+    return plainToInstance(UserEntityWithPassword, user);
   }
 
   public async updatePassword(

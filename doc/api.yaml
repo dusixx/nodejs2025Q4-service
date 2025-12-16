@@ -1,5 +1,48 @@
 openapi: 3.0.0
 paths:
+  /auth/signup:
+    post:
+      operationId: AuthController_signup
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserDto'
+      responses:
+        '201':
+          description: ''
+      tags: &ref_0
+        - auth
+  /auth/login:
+    post:
+      operationId: AuthController_login
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
+  /auth/refresh:
+    post:
+      operationId: AuthController_refresh
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
   /user:
     post:
       operationId: UserController_create
@@ -20,7 +63,7 @@ paths:
                 $ref: '#/components/schemas/UserResponseDto'
         '400':
           description: request body does not contain required fields
-      tags: &ref_0
+      tags: &ref_1
         - user
     get:
       operationId: UserController_findAll
@@ -35,7 +78,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/UserResponseDto'
-      tags: *ref_0
+      tags: *ref_1
   /user/{id}:
     get:
       operationId: UserController_findOne
@@ -58,7 +101,7 @@ paths:
           description: id is not UUID
         '404':
           description: user not found
-      tags: *ref_0
+      tags: *ref_1
     put:
       operationId: UserController_update
       summary: update user password
@@ -88,7 +131,7 @@ paths:
           description: user not found
         '409':
           description: old password is invalid
-      tags: *ref_0
+      tags: *ref_1
     delete:
       operationId: UserController_remove
       summary: delete user by id
@@ -106,7 +149,7 @@ paths:
           description: id is not UUID
         '404':
           description: user not found
-      tags: *ref_0
+      tags: *ref_1
   /artist:
     post:
       operationId: ArtistController_create
@@ -127,7 +170,7 @@ paths:
                 $ref: '#/components/schemas/ArtistResponseDto'
         '400':
           description: request body does not contain required fields
-      tags: &ref_1
+      tags: &ref_2
         - artist
     get:
       operationId: ArtistController_findAll
@@ -142,7 +185,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ArtistResponseDto'
-      tags: *ref_1
+      tags: *ref_2
   /artist/{id}:
     get:
       operationId: ArtistController_findOne
@@ -165,7 +208,7 @@ paths:
           description: id is not UUID
         '404':
           description: artist not found
-      tags: *ref_1
+      tags: *ref_2
     put:
       operationId: ArtistController_update
       summary: update artist
@@ -193,7 +236,7 @@ paths:
           description: id is not UUID
         '404':
           description: artist not found
-      tags: *ref_1
+      tags: *ref_2
     delete:
       operationId: ArtistController_remove
       summary: delete artist by id
@@ -211,7 +254,7 @@ paths:
           description: id is not UUID
         '404':
           description: artist not found
-      tags: *ref_1
+      tags: *ref_2
   /track:
     post:
       operationId: TrackController_create
@@ -232,7 +275,7 @@ paths:
                 $ref: '#/components/schemas/TrackResponseDto'
         '400':
           description: request body does not contain required fields
-      tags: &ref_2
+      tags: &ref_3
         - track
     get:
       operationId: TrackController_findAll
@@ -247,7 +290,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TrackResponseDto'
-      tags: *ref_2
+      tags: *ref_3
   /track/{id}:
     get:
       operationId: TrackController_findOne
@@ -270,7 +313,7 @@ paths:
           description: id is not UUID
         '404':
           description: track not found
-      tags: *ref_2
+      tags: *ref_3
     put:
       operationId: TrackController_update
       summary: update track
@@ -298,7 +341,7 @@ paths:
           description: id is not UUID
         '404':
           description: track not found
-      tags: *ref_2
+      tags: *ref_3
     delete:
       operationId: TrackController_remove
       summary: delete track by id
@@ -316,7 +359,7 @@ paths:
           description: id is not UUID
         '404':
           description: track not found
-      tags: *ref_2
+      tags: *ref_3
   /album:
     post:
       operationId: AlbumController_create
@@ -337,7 +380,7 @@ paths:
                 $ref: '#/components/schemas/AlbumResponseDto'
         '400':
           description: request body does not contain required fields
-      tags: &ref_3
+      tags: &ref_4
         - album
     get:
       operationId: AlbumController_findAll
@@ -352,7 +395,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AlbumResponseDto'
-      tags: *ref_3
+      tags: *ref_4
   /album/{id}:
     get:
       operationId: AlbumController_findOne
@@ -375,7 +418,7 @@ paths:
           description: id is not UUID
         '404':
           description: album not found
-      tags: *ref_3
+      tags: *ref_4
     put:
       operationId: AlbumController_update
       summary: update album
@@ -403,7 +446,7 @@ paths:
           description: id is not UUID
         '404':
           description: album not found
-      tags: *ref_3
+      tags: *ref_4
     delete:
       operationId: AlbumController_remove
       summary: delete album by id
@@ -421,7 +464,7 @@ paths:
           description: id is not UUID
         '404':
           description: album not found
-      tags: *ref_3
+      tags: *ref_4
   /favs/track/{id}:
     post:
       operationId: FavsController_create
@@ -440,7 +483,7 @@ paths:
           description: id is not UUID
         '422':
           description: nothing to add to favs
-      tags: &ref_4
+      tags: &ref_5
         - favs
     delete:
       operationId: FavsController_remove
@@ -459,7 +502,7 @@ paths:
           description: id is not UUID
         '404':
           description: is not favorite
-      tags: *ref_4
+      tags: *ref_5
   /favs/album/{id}:
     post:
       operationId: FavsController_create
@@ -478,7 +521,7 @@ paths:
           description: id is not UUID
         '422':
           description: nothing to add to favs
-      tags: *ref_4
+      tags: *ref_5
     delete:
       operationId: FavsController_remove
       summary: delete from favs
@@ -496,7 +539,7 @@ paths:
           description: id is not UUID
         '404':
           description: is not favorite
-      tags: *ref_4
+      tags: *ref_5
   /favs/artist/{id}:
     post:
       operationId: FavsController_create
@@ -515,7 +558,7 @@ paths:
           description: id is not UUID
         '422':
           description: nothing to add to favs
-      tags: *ref_4
+      tags: *ref_5
     delete:
       operationId: FavsController_remove
       summary: delete from favs
@@ -533,7 +576,7 @@ paths:
           description: id is not UUID
         '404':
           description: is not favorite
-      tags: *ref_4
+      tags: *ref_5
   /favs:
     get:
       operationId: FavsController_findAll
@@ -546,7 +589,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FavsResponseDto'
-      tags: *ref_4
+      tags: *ref_5
 info:
   title: Home Library Service
   description: ecivreS yrarbiL emoH
@@ -555,6 +598,11 @@ info:
 tags: []
 servers: []
 components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
   schemas:
     CreateUserDto:
       type: object
@@ -570,6 +618,14 @@ components:
       required:
         - login
         - password
+    RefreshTokenDto:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+          description: refresh jwt
+      required:
+        - refreshToken
     UserResponseDto:
       type: object
       properties:

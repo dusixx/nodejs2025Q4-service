@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ErrorMessage } from '../common/constants';
-import { PrismaService } from '../common/services/prisma.service';
+import { PrismaService } from '../common/prisma-service/prisma.service';
 import { isPrismaNotFoundError } from '../common/utils';
 import { AlbumResponseDto } from './dto/album-response.dto';
 import { CreateAlbumDto } from './dto/create-album.dto';

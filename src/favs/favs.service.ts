@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
-import { PrismaService } from '../common/services/prisma.service';
+import { PrismaService } from '../common/prisma-service/prisma.service';
 import { isPrismaNotFoundError, omit } from '../common/utils';
 import { FavsResponseDto } from './dto/favs-response.dto';
 import { FavCollectionName } from './types';

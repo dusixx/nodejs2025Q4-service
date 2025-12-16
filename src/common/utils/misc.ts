@@ -1,6 +1,6 @@
 import { ParseUUIDPipe } from '@nestjs/common';
-import { Prisma } from '../../prisma/generated/client/client';
 import { UUID_VER } from '../constants';
+import { Prisma } from '../prisma/generated/client/client';
 import { red } from './style';
 
 export const omit = <T extends object, K extends keyof T>(obj: T, ...keys: K[]): Omit<T, K> => {
