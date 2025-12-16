@@ -16,9 +16,7 @@ cp .env.example .env
 ```
 
 - Install [Docker](https://docs.docker.com/engine/install/)
-- If you are a `Windows` user, download and run [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-
-**⚠️ NOTE**: If you run commands `randomly`, this may cause the app to crash. Tests will stop running. A cleanup and restart will be required
+- If you are a `Windows` user, install and run [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
 # 🚀 Running
 
@@ -34,7 +32,7 @@ npm run docker:cleanup
 # run both images
 docker-compose up -d
 
-# 🧪 run the tests (both auth & refresh)
+# 🧪 run the tests (auth & refresh)
 npm run test:all
 ```
 
@@ -46,7 +44,7 @@ npm run test:all
 - A separate file(s) named `error-YYYY-MM-DD-TIMESTAMP.log` is created for `errors`.
 - `DB logs` are available on a volume named `nodejs2025q4-service_postgres-data` (`log` folder)
 
-## 🔄 Log rotation
+### ✔️ Log rotation
 
 - The maximum file size is set by the `LOG_MAX_SIZE_KB` variable (`50` by default).
 - If a file size exceeds the maximum, a new file is created and so on.
@@ -94,7 +92,7 @@ exit
 
 </details>
 
-# ℹ️ Useful commands
+# 🔵 Useful commands
 
 ```sh
 # list running containers
@@ -107,7 +105,7 @@ npm run docker:volumes
 npm run docker:images
 ```
 
-# 🆘 If something went wrong
+# 🔴 If something went wrong
 
 If running tests produces errors like `TypeError: Cannot read properties of undefined (reading 'prototype')` use
 
